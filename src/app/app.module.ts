@@ -20,6 +20,7 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { GlobalShared } from './app.global';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,6 +42,9 @@ import {
     ThemeModule.forRoot(),
   ],
   bootstrap: [AppComponent],
+  providers: [
+    GlobalShared,
+  ]
 })
 export class AppModule {
 }

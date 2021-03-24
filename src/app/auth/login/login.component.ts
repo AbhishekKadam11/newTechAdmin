@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { getDeepFromObject, NbAuthResult, NbLoginComponent } from '@nebular/auth';
+import { getDeepFromObject, NbAuthResult, NbAuthService, NbLoginComponent, NB_AUTH_OPTIONS } from '@nebular/auth';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'ngx-login',
@@ -9,7 +10,7 @@ import { getDeepFromObject, NbAuthResult, NbLoginComponent } from '@nebular/auth
 export class NgxLoginComponent extends NbLoginComponent {
   redirectDelay: number = 0;
   showMessages: any = {};
-  strategy: string = '';
+ // strategy: string = '';
 
   errors: string[] = [];
   messages: string[] = [];
@@ -18,28 +19,39 @@ export class NgxLoginComponent extends NbLoginComponent {
   // socialLinks: NbAuthSocialLink[] = [];
   rememberMe = false;
 
+  constructor(protected service: NbAuthService,
+    @Inject(NB_AUTH_OPTIONS) protected options = {},
+    protected cd: ChangeDetectorRef,
+    protected router: Router, private authService: AuthService) {
+    super(service, options, cd, router);
+    
+  }
+
   login(): void {
     this.errors = [];
     this.messages = [];
     this.submitted = true;
+    console.log(this.user);
+    this.authService.login(this.user).subscribe((result)=>{
+        console.log(result)
+    })
+    // this.service.authenticate(this.strategy, this.user).subscribe((result: NbAuthResult) => {
+    //   this.submitted = false;
 
-    this.service.authenticate(this.strategy, this.user).subscribe((result: NbAuthResult) => {
-      this.submitted = false;
+    //   if (result.isSuccess()) {
+    //     this.messages = result.getMessages();
+    //   } else {
+    //     this.errors = result.getErrors();
+    //   }
 
-      if (result.isSuccess()) {
-        this.messages = result.getMessages();
-      } else {
-        this.errors = result.getErrors();
-      }
-
-      const redirect = result.getRedirect();
-      if (redirect) {
-        setTimeout(() => {
-          return this.router.navigateByUrl(redirect);
-        }, this.redirectDelay);
-      }
-      this.cd.detectChanges();
-    });
+    //   const redirect = result.getRedirect();
+    //   if (redirect) {
+    //     setTimeout(() => {
+    //       return this.router.navigateByUrl(redirect);
+    //     }, this.redirectDelay);
+    //   }
+    //   this.cd.detectChanges();
+    // });
   }
   
   getConfigValue(key: string): any {
