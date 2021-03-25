@@ -10,14 +10,9 @@ import { AuthService } from '../service/auth.service';
 export class NgxLoginComponent extends NbLoginComponent {
   redirectDelay: number = 0;
   showMessages: any = {};
- // strategy: string = '';
-
-  errors: string[] = [];
   messages: string[] = [];
   user: any = {};
   submitted: boolean = false;
-  // socialLinks: NbAuthSocialLink[] = [];
-  rememberMe = false;
 
   constructor(protected service: NbAuthService,
     @Inject(NB_AUTH_OPTIONS) protected options = {},
@@ -26,32 +21,26 @@ export class NgxLoginComponent extends NbLoginComponent {
     super(service, options, cd, router);
     
   }
-
+  errors = ["tset"]
   login(): void {
     this.errors = [];
     this.messages = [];
     this.submitted = true;
-    console.log(this.user);
+    // console.log(this.user);
     this.authService.login(this.user).subscribe((result)=>{
-        console.log(result)
+        // console.log(result);
+        this.submitted = false;
+        if (result['success']) {
+          this.router.navigate(['/pages/home']);
+        } else {
+          this.errors = [result['msg']];
+          this.showMessages.error = result['msg'];
+          setTimeout(() => {
+            this.errors = [];
+          },3000)
+        }
     })
-    // this.service.authenticate(this.strategy, this.user).subscribe((result: NbAuthResult) => {
-    //   this.submitted = false;
-
-    //   if (result.isSuccess()) {
-    //     this.messages = result.getMessages();
-    //   } else {
-    //     this.errors = result.getErrors();
-    //   }
-
-    //   const redirect = result.getRedirect();
-    //   if (redirect) {
-    //     setTimeout(() => {
-    //       return this.router.navigateByUrl(redirect);
-    //     }, this.redirectDelay);
-    //   }
-    //   this.cd.detectChanges();
-    // });
+    this.cd.detectChanges();
   }
   
   getConfigValue(key: string): any {

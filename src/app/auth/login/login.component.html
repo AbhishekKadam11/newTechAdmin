@@ -1,17 +1,9 @@
 <h1 id="title" class="title">Login</h1>
-<!-- <p class="sub-title">Hello! Log in with your email.</p> -->
 
 <nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
-  <p class="alert-title"><b>Oh snap!</b></p>
-  <ul class="alert-message-list">
-    <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
-  </ul>
-</nb-alert>
 
-<nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
-  <p class="alert-title"><b>Hooray!</b></p>
-  <ul class="alert-message-list">
-    <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+  <ul class="alert-message-list"> 
+    <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
   </ul>
 </nb-alert>
 
@@ -70,7 +62,6 @@
   </div>
 
   <div class="form-control-group accept-group">
-    <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe" *ngIf="rememberMe">Remember me</nb-checkbox>
     <a class="forgot-password" routerLink="../request-password">Forgot Password?</a>
   </div>
 

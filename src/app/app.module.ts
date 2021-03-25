@@ -6,7 +6,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
@@ -21,6 +21,8 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 import { GlobalShared } from './app.global';
+import { AuthInterceptorService } from './auth/service/auth-interceptor.service';
+import { ErrorInterceptorService } from './auth/service/error-interceptor.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,14 +37,16 @@ import { GlobalShared } from './app.global';
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),
-    NbChatModule.forRoot({
-      messageGoogleMapKey: '',
-    }),
+    // NbChatModule.forRoot({
+    //   messageGoogleMapKey: '',
+    // }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
   ],
   bootstrap: [AppComponent],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
     GlobalShared,
   ]
 })
