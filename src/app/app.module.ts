@@ -21,8 +21,8 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 import { GlobalShared } from './app.global';
-import { AuthInterceptorService } from './auth/service/auth-interceptor.service';
-import { ErrorInterceptorService } from './auth/service/error-interceptor.service';
+import { AuthInterceptorService } from './authentication/service/auth-interceptor.service';
+import { ErrorInterceptorService } from './authentication/service/error-interceptor.service';
 
 @NgModule({
   declarations: [AppComponent],
