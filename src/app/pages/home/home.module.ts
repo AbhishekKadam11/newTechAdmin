@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbCardModule} from '@nebular/theme';
+import { NbCardModule, NbIconModule} from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { HomeComponent } from './home.component';
 
@@ -7,6 +7,7 @@ import { HomeComponent } from './home.component';
   imports: [
     ThemeModule,
     NbCardModule,
+    NbIconModule,
   ], 
   declarations: [
     HomeComponent

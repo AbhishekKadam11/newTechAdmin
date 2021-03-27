@@ -11,7 +11,7 @@ import { EditorsRoutingModule, routedComponents } from './editors-routing.module
     NbCardModule,
     ThemeModule,
     EditorsRoutingModule,
-    CKEditorModule,
+    // CKEditorModule,
   ],
   declarations: [
     ...routedComponents,

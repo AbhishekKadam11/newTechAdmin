@@ -13,7 +13,7 @@ const routes: Routes = [{
     component: TinyMCEComponent,
   }, {
     path: 'ckeditor',
-    component: CKEditorComponent,
+    // component: CKEditorComponent,
   }],
 }];
 
@@ -26,5 +26,5 @@ export class EditorsRoutingModule { }
 export const routedComponents = [
   EditorsComponent,
   TinyMCEComponent,
-  CKEditorComponent,
+  // CKEditorComponent,
 ];

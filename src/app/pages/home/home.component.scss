@@ -1,0 +1,38 @@
+@import '../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+.card1 {
+    background-image: radial-gradient( circle farthest-corner at -0.1% 1.8%,  rgba(255,77,77,0.7) 0%, rgba(255,184,129,0.34) 100.2% );
+}
+
+.card2 {
+    background-image: radial-gradient( circle farthest-corner at -0.1% 1.8%,  rgba(148, 255, 77, 0.7) 0%, rgba(231, 250, 173, 0.34) 100.2% );
+}
+
+.card3 {
+    background-image: radial-gradient( circle farthest-corner at -0.1% 1.8%,  rgba(77, 130, 255, 0.7) 0%, rgba(159, 230, 251, 0.34) 100.2% );
+}
+
+.card4 {
+    background-image: radial-gradient( circle farthest-corner at -0.1% 1.8%,  rgba(255, 243, 77, 0.7) 0%, rgba(248, 250, 163, 0.34) 100.2% );
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .details {
+    text-align: center;
+    padding-top: 1.5rem;
+
+    span {
+      color: nb-theme(text-hint-color);
+    }
+  }
+
+  .iconsize {
+    font-size: 2rem;
+  }
