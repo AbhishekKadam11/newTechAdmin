@@ -4,7 +4,9 @@
       <div class="col-md-3">
         <nb-card class="card1">
           <nb-card-body>
-            <h4><nb-icon icon="person-outline" pack="eva" class="iconsize"></nb-icon> Customers</h4>
+            <h4>
+              <nb-icon icon="person-outline" pack="eva" class="iconsize"></nb-icon> Customers
+            </h4>
             <div class="details h1">
               Card
             </div>
@@ -14,7 +16,9 @@
       <div class="col-md-3">
         <nb-card>
           <nb-card-body class="card2">
-            <h4><nb-icon icon="layers-outline" pack="eva" class="iconsize"></nb-icon> Products</h4>
+            <h4>
+              <nb-icon icon="layers-outline" pack="eva" class="iconsize"></nb-icon> Products
+            </h4>
             <div class="details h1">
               Card
             </div>
@@ -24,7 +28,9 @@
       <div class="col-md-3">
         <nb-card class="card3">
           <nb-card-body>
-            <h4><nb-icon icon="arrow-circle-down-outline" pack="eva" class="iconsize"></nb-icon> Today's Order</h4>
+            <h4>
+              <nb-icon icon="arrow-circle-down-outline" pack="eva" class="iconsize"></nb-icon> Today's Order
+            </h4>
             <div class="details h1">
               Card
             </div>
@@ -34,7 +40,9 @@
       <div class="col-md-3">
         <nb-card class="card4">
           <nb-card-body>
-            <h4><nb-icon icon="checkmark-circle-outline" pack="eva" class="iconsize"></nb-icon> Max Reviewed</h4>
+            <h4>
+              <nb-icon icon="checkmark-circle-outline" pack="eva" class="iconsize"></nb-icon> Max Reviewed
+            </h4>
             <div class="details h1">
               Card
             </div>
@@ -42,5 +50,13 @@
         </nb-card>
       </div>
     </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xxxl-8">
+    <ngx-orders [data]="data"></ngx-orders>
+  </div>
+  <div class="col-xxxl-4">
+    <ngx-customer-order></ngx-customer-order>
   </div>
 </div>
