@@ -10,7 +10,7 @@ export class OrdersComponent implements OnInit {
   
   @Input() public data: { value: number, date: string }[];
   private width = 700;
-  private height = 600;
+  private height = 500;
   private margin = 50;
   public svg;
   public svgInner;

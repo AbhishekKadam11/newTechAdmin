@@ -1,6 +1,14 @@
 <nb-card size="large">
-    <div class="">
-        <p>customer-order works!</p>
-    </div>
+    <nb-card-header>
+        Recent Orders
+    </nb-card-header>
+    <nb-card-body>
+        <nb-list>
+            <nb-list-item class="contact" *ngFor="let c of contacts">
+                <nb-user [picture]="c.user.picture" [name]="c.user.name" [title]="c.type" size="large">
+                </nb-user>
+                <nb-icon icon="corner-down-right-outline" pack="eva"></nb-icon>
+            </nb-list-item>
+        </nb-list>
+    </nb-card-body>
 </nb-card>
-
