@@ -20,10 +20,11 @@
     <nb-action class="control-item" icon="bell-outline"></nb-action>
     <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
       <nb-user [nbContextMenu]="userMenu"
+               nbContextMenuTag="userActionMenu"
                [onlyPicture]="userPictureOnly"
-               [name]="user?.name"
+               [name]="user?.email"
                [picture]="user?.picture">
-      </nb-user>
+      </nb-user> 
     </nb-action>
   </nb-actions>
 </div>

@@ -7,7 +7,7 @@ import { AuthService } from '../service/auth.service';
   selector: 'ngx-login',
   templateUrl: './login.component.html',
 })
-export class NgxLoginComponent extends NbLoginComponent {
+export class NgxLoginComponent {
   redirectDelay: number = 0;
   showMessages: any = {};
   messages: string[] = [];
@@ -18,7 +18,7 @@ export class NgxLoginComponent extends NbLoginComponent {
     @Inject(NB_AUTH_OPTIONS) protected options = {},
     protected cd: ChangeDetectorRef,
     protected router: Router, private authService: AuthService) {
-    super(service, options, cd, router);
+    // super(service, options, cd, router);
     
   }
   errors = ["tset"]
