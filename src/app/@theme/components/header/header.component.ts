@@ -4,9 +4,10 @@ import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeServ
 import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { filter, map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { AuthService } from '../../../authentication/service/auth.service';
 import { Router } from '@angular/router';
+import { User } from '../../../models';
 
 @Component({
   selector: 'ngx-header',
@@ -17,7 +18,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
-  user: any;
+  user: User;
 
   themes = [
     {
@@ -41,6 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentTheme = 'default';
 
   userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
+  public subscription: Subscription;
 
   constructor(private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
@@ -59,8 +61,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // this.userService.getUsers()
     //   .pipe(takeUntil(this.destroy$))
     //   .subscribe((users: any) => this.user = users.nick);
-    this.authService.currentUser.pipe(takeUntil(this.destroy$)).subscribe(user =>{ 
-      console.log("user ", user);
+    this.subscription = this.authService.currentUser.pipe(takeUntil(this.destroy$)).subscribe(user =>{ 
+      console.log("Header comp ", user);
       this.user = user;
     });
     // console.log("this.authService.currentUser ",this.authService.currentUser.subscribe())
@@ -83,13 +85,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.nbMenuService.onItemClick()
       .pipe(
         filter(({ tag }) => tag === 'userActionMenu'),
-        map(({ item: { title } }) => title),
       )
-      .subscribe(title => {
-        if (title === 'Profile') {
+      .subscribe(data => {
+        if (data['item']['title'] === 'Profile') {
           this.router.navigate(['/pages/profile']);
         }
-        if (title === 'Log out') {
+        if (data['item']['title'] === 'Log out') {
           this.authService.logout();
           this.router.navigate(['/auth/login']);
         }
@@ -99,6 +100,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.subscription.unsubscribe(); 
   }
 
   changeTheme(themeName: string) {

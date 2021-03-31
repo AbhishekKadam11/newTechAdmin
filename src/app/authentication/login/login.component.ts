@@ -13,15 +13,19 @@ export class NgxLoginComponent {
   messages: string[] = [];
   user: any = {};
   submitted: boolean = false;
+  errors:any = [];
 
   constructor(protected service: NbAuthService,
     @Inject(NB_AUTH_OPTIONS) protected options = {},
     protected cd: ChangeDetectorRef,
     protected router: Router, private authService: AuthService) {
     // super(service, options, cd, router);
-    
+       // redirect to home if already logged in
+    if (this.authService.currentUserValue) {
+      this.router.navigate(['/']);
+    }
   }
-  errors = ["tset"]
+
   login(): void {
     this.errors = [];
     this.messages = [];
