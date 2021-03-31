@@ -16,8 +16,6 @@ import {
 } from '@nebular/theme';
 import { AuthComponent } from './auth/auth.component';
 import { NgxLoginComponent } from './login/login.component';
-import { AuthService } from './service/auth.service';
-
 
 @NgModule({
   imports: [
@@ -39,7 +37,6 @@ import { AuthService } from './service/auth.service';
     NgxLoginComponent,
   ],
   providers: [
-    AuthService,
   ]
 })
 export class NgxAuthModule {
