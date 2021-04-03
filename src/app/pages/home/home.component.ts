@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
+import { HomeService } from './home.service';
 
 @Component({
   selector: 'ngx-home',
@@ -6,6 +8,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
+  dashboardCountDetails: any = {};
+  orderStatisticDetails: any = [];
+  orderByCustomerDetails: any = [];
 
   public data = [
     {
@@ -150,10 +156,21 @@ export class HomeComponent implements OnInit {
     }
   ]
 
-  constructor() { }
+  constructor(private homeService: HomeService) { }
 
   ngOnInit(): void {
+    forkJoin([this.homeService.dashboardCount(), this.homeService.orderStatistics(),
+    this.homeService.orderByCustomer()]).subscribe(results => {
+      this.dashboardCountDetails = results[0];
+      this.orderStatisticDetails = results[1];
+      this.orderByCustomerDetails = results[2];
+      console.log( this.orderByCustomerDetails);
+    },error => {
+      console.log(error);
+    });
+
+
   }
-  
+
 
 }

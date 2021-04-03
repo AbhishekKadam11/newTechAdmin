@@ -2,12 +2,14 @@
     <nb-card-header>
         Recent Orders
     </nb-card-header>
-    <nb-card-body>
+    <nb-card-body  [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
         <nb-list>
-            <nb-list-item class="contact" *ngFor="let c of contacts">
-                <nb-user [picture]="c.user.picture" [name]="c.user.name" [title]="c.type" size="large">
+            <nb-list-item class="contact" *ngFor="let c of data">
+                <nb-user [picture]="c.customerDetails?.picturePic" [name]="c.customerDetails.email" [title]="c.type" size="large">
                 </nb-user>
-                <nb-icon icon="corner-down-right-outline" pack="eva"></nb-icon>
+                <button nbButton shape="round">
+                    <nb-icon icon="corner-down-right-outline" pack="eva"></nb-icon>
+                </button>
             </nb-list-item>
         </nb-list>
     </nb-card-body>

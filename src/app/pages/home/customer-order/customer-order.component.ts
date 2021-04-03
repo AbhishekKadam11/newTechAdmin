@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
 import { takeWhile } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
@@ -10,11 +10,14 @@ import { forkJoin } from 'rxjs';
 })
 export class CustomerOrderComponent implements OnInit {
   
+  @Input() public data:[];
+  loading = true;
   private alive = true;
   contacts: any[];
   recent: any[];
 
   constructor(private userService: UserData) {
+  console.log(" this.loading", this.loading)
     forkJoin(
       this.userService.getContacts(),
       this.userService.getRecentUsers(),
@@ -24,7 +27,17 @@ export class CustomerOrderComponent implements OnInit {
         this.contacts = contacts;
         this.recent = recent;
       });
+     
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // only run when property "data" changed
+    if (changes['data'] && this.data.length > 0) {
+       console.log("this.data",this.data)
+       this.loading = false;
+       console.log(" this.loading", this.loading)
+    }
+}
 
   ngOnInit(): void {
   }

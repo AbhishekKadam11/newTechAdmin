@@ -31,4 +31,9 @@
       border-top: none;
     }
   }
+
+  ::ng-deep nb-spinner {
+    z-index: 999;
+  }
+
 }

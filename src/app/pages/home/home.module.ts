@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbActionsModule, NbCardModule, NbIconModule, NbListModule, NbProgressBarModule, NbTabsetModule, NbUserModule} from '@nebular/theme';
+import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbListModule, NbProgressBarModule, NbSpinnerModule, NbTabsetModule, NbUserModule} from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { HomeComponent } from './home.component';
 import { OrdersComponent } from './orders-chart/orders.component';
@@ -28,6 +28,8 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     NbProgressBarModule,
     NgxEchartsModule,
     NgxChartsModule,
+    NbButtonModule,
+    NbSpinnerModule,
   ], 
   declarations: [
     HomeComponent,

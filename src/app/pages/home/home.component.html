@@ -8,7 +8,7 @@
               <nb-icon icon="person-outline" pack="eva" class="iconsize"></nb-icon> Customers
             </h4>
             <div class="details h1">
-              Card
+              {{dashboardCountDetails?.totalCustomer || 0}}
             </div>
           </nb-card-body>
         </nb-card>
@@ -20,7 +20,7 @@
               <nb-icon icon="layers-outline" pack="eva" class="iconsize"></nb-icon> Products
             </h4>
             <div class="details h1">
-              Card
+              {{dashboardCountDetails?.products || 0}}
             </div>
           </nb-card-body>
         </nb-card>
@@ -32,7 +32,7 @@
               <nb-icon icon="arrow-circle-down-outline" pack="eva" class="iconsize"></nb-icon> Today's Order
             </h4>
             <div class="details h1">
-              Card
+              {{dashboardCountDetails?.orders || 0}}
             </div>
           </nb-card-body>
         </nb-card>
@@ -44,7 +44,7 @@
               <nb-icon icon="checkmark-circle-outline" pack="eva" class="iconsize"></nb-icon> Max Reviewed
             </h4>
             <div class="details h1">
-              Card
+              {{dashboardCountDetails?.maxReview || 0}}
             </div>
           </nb-card-body>
         </nb-card>
@@ -55,9 +55,9 @@
 <div class="row">
   <div class="col-xxxl-8">
     <ngx-orders [data]="data"></ngx-orders>
-  </div>
+  </div> 
   <div class="col-xxxl-4">
-    <ngx-customer-order></ngx-customer-order>
+    <ngx-customer-order [data]="orderByCustomerDetails"></ngx-customer-order>
   </div>
 </div>
 <div class="row">
