@@ -8,6 +8,7 @@ import { ECommerceModule } from './e-commerce/e-commerce.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { HomeModule } from './home/home.module';
+import { ProductModule } from './products/products.module';
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ import { HomeModule } from './home/home.module';
     MiscellaneousModule,
   ],
   declarations: [
-    PagesComponent
+    PagesComponent,
   ],
 })
 export class PagesModule {

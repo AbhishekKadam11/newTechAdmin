@@ -2,7 +2,7 @@
     <nb-card-header>
         Recent Orders
     </nb-card-header>
-    <nb-card-body  [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
+    <nb-card-body [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
         <nb-list>
             <nb-list-item class="contact" *ngFor="let c of data">
                 <nb-user [picture]="c.customerDetails?.picturePic" [name]="c.customerDetails.email" [title]="c.type" size="large">

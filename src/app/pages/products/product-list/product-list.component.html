@@ -1,0 +1,17 @@
+<nb-card style="height: 100% !important;">
+    <nb-card-header class="card2">
+        Product List
+    </nb-card-header>
+    <nb-card-body>
+        <gridjs-angular
+        [gridConfig]="gridConfig"
+        (cellClick)="handleCellClick($event)"
+        (rowClick)="handleRowClick($event)"
+        (beforeLoad)="handleBeforeLoad($event)"
+        (gridLoad)="handleGridLoad($event)"
+      ></gridjs-angular>
+    </nb-card-body>
+    <button nbButton size="tiny">
+        View
+      </button>
+</nb-card>
