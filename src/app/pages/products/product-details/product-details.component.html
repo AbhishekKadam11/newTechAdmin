@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="col-xxxl-6 col-xxl-12 col-md-7">
+        <nb-card size="large">
+            <nb-card-header>
+                Product Images
+                <button class="single-view-button" nbButton size="small"
+                    [appearance]="isSingleView ? 'filled' : 'outline'" (click)="isSingleView = true">
+                    <i class="nb-square"></i>
+                </button>
+                <button class="grid-view-button" nbButton size="small"
+                    [appearance]="isSingleView ? 'outline' : 'filled'" (click)="isSingleView = false">
+                    <nb-icon icon="grid" pack="eva"></nb-icon>
+                </button>
+            </nb-card-header>
+
+            <div class="grid-container">
+
+                <div class="single-view" *ngIf="isSingleView">
+                    <div class="camera" [style.background-image]="'url(' + selectedCamera.source + ')'">
+                        <!-- <span class="camera-name">{{ selectedCamera.title }}</span> -->
+                    </div>
+                </div>
+
+                <div class="grid-view" *ngIf="!isSingleView">
+                    <div class="camera" *ngFor="let camera of cameras"
+                        [style.background-image]="'url(' + camera.source + ')'" (click)="selectCamera(camera)">
+                        <!-- <span class="camera-name">{{ camera.title }}</span> -->
+                    </div>
+                </div>
+
+            </div>
+
+            <nb-card-footer>
+                <nb-actions [size]="actionSize" fullWidth>
+                    <nb-action>
+                        <nb-icon icon="plus-square-outline" pack="eva"></nb-icon>
+                        Add
+                    </nb-action>
+                    <nb-action>
+                        <nb-icon icon="file-remove-outline" pack="eva"></nb-icon>
+                        Remove
+                    </nb-action>
+                    <!-- <nb-action>
+                    <nb-icon icon="search-outline" pack="eva"></nb-icon>
+                    Search
+                </nb-action>
+                <nb-action>
+                    <nb-icon icon="settings-2-outline" pack="eva"></nb-icon>
+                    Setup
+                </nb-action> -->
+                </nb-actions>
+            </nb-card-footer>
+        </nb-card>
+    </div>
+    <div class="col-xxxl-6 col-xxl-12 col-md-7">
+        <nb-card size="large">
+            <nb-card-header>
+                Product Details
+            </nb-card-header>
+
+            <nb-card-body>
+                <form>
+                    <div class="form-group row">
+                        <label for="inputbrand" class="label col-sm-2 col-form-label">Brand</label>
+                        <div class="col-sm-3">
+                            <input type="text" nbInput fullWidth id="inputbrand" placeholder="Brand">
+                        </div>
+                        <label for="inputTitle" class="label col-sm-2 col-form-label">Title</label>
+                        <div class="col-sm-3">
+                            <input type="text" nbInput fullWidth id="inputTitle" placeholder="Title">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPrice" class="label col-sm-2 col-form-label">Price</label>
+                        <div class="col-sm-3">
+                            <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price">
+                        </div>
+                        <label for="inputReview" class="label col-sm-2 col-form-label">Avg. Review</label>
+                        <div class="col-sm-3">
+                            <input type="text" nbInput fullWidth id="inputReview" placeholder="Review">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label>
+                        <div class="col-sm-3">
+                            <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
+                            
+                        </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                        <label for="inputReview" class="label col-sm-2 col-form-label">Avg. Review</label>
+                        <div class="col-sm-3">
+                            <input type="text" nbInput fullWidth id="inputReview" placeholder="Review">
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group row">
+                        <label class="col-sm-3 label">Radios</label>
+                        <div class="col-sm-9"> -->
+                            <!-- <nb-radio-group>
+                            <nb-radio>Option 1</nb-radio>
+                            <nb-radio>Option 2</nb-radio>
+                            <nb-radio disabled>Disabled Option</nb-radio>
+                          </nb-radio-group> -->
+                        <!-- </div>
+                    </div> -->
+                    <div class="form-group row">
+                        <div class="offset-sm-3 col-sm-9">
+                            <button type="submit" nbButton status="primary">Sign in</button>
+                        </div>
+                    </div>
+                </form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

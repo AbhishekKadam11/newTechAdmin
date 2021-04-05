@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { GlobalShared } from '../../../app.global';
 import { RowSelection } from "gridjs-selection";
 import { h, html } from 'gridjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-product-list',
@@ -16,9 +17,9 @@ export class ProductListComponent implements OnInit {
   public productList: any = [];
 
   constructor(private productService: ProductsService,
-    private http: HttpClient, private globalShared: GlobalShared) {
+    private http: HttpClient, private globalShared: GlobalShared,
+    protected router: Router) {
     this.productService.productList().subscribe(result => {
-      console.log(result);
       this.productList = result;
     })
 
@@ -59,18 +60,20 @@ export class ProductListComponent implements OnInit {
     //     }
     //   }
     // },
-    { 
-      id: 'action',
+    {
+      id: '_id',
       name: 'Actions',
       formatter: (cell, row) => {
         return h('button', {
           className: 'py-1 mb-2 px-2 border rounded-md viewButton',
-          style:"background-image: linear-gradient(to right, #42aaff, #0095ff); border: none; box-shadow: 0 0 0 0 #006fd6, 0 0 0 0 #0057c2, 0 0 transparent;color: #ffffff;",
-          onClick: () => alert(`Editing "${row.cells[0].data}" "${row.cells[1].data}"`)
+          style: "background-image: linear-gradient(to right, #42aaff, #0095ff); border: none; box-shadow: 0 0 0 0 #006fd6, 0 0 0 0 #0057c2, 0 0 transparent;color: #ffffff;",
+          onClick: () => {
+            this.router.navigate(['/pages/products/details/', cell]);
+          }
         }, 'View');
       }
     },
-  ],
+    ],
     pagination: {
       enabled: true,
       limit: 10,
@@ -81,33 +84,28 @@ export class ProductListComponent implements OnInit {
     server: {
       url: `${this.globalShared['apiUrl']}/productList`,
       then: data => data[0]['data'],
-      // .map(function(item) {
-      //   item.action = html(`<button nbButton style="background-image: linear-gradient(to right, #42aaff, #0095ff);
-      //   border: none;
-      //   box-shadow: 0 0 0 0 #006fd6, 0 0 0 0 #0057c2, 0 0 transparent;
-      //   color: #ffffff;" size="small">
-      //      View
-      //    </button>`); 
-      //   return item;
-      // }),
-     total: data => data[0].metadata[0]['total']
-    } 
+      total: data => data[0].metadata[0]['total']
+    }
   };
 
   handleCellClick(event: any) {
-    console.log("cellClicked", event);
+    //   console.log("cellClicked", event);
   }
 
   handleRowClick(event: any) {
-    console.log("rowClicked", event);
+    //  console.log("rowClicked", event);
   }
 
   handleBeforeLoad(event: any) {
-    console.log("beforeLoad", event);
+    // console.log("beforeLoad", event);
   }
 
   handleGridLoad(event: any) {
-    console.log("load", event);
+    //  console.log("load", event);
   }
+
+  // submit() {
+  //   this.router.navigate(['/pages/products/details']);
+  // }
 
 }
