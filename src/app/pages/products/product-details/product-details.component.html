@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-xxxl-6 col-xxl-12 col-md-7">
+    <div class="col-xxxl-6 col-xxl-12 col-md-12">
         <nb-card size="large">
             <nb-card-header>
                 Product Images
@@ -32,11 +32,11 @@
 
             <nb-card-footer>
                 <nb-actions [size]="actionSize" fullWidth>
-                    <nb-action>
+                    <nb-action nbButton (click)="addImage()">
                         <nb-icon icon="plus-square-outline" pack="eva"></nb-icon>
                         Add
                     </nb-action>
-                    <nb-action>
+                    <nb-action nbButton>
                         <nb-icon icon="file-remove-outline" pack="eva"></nb-icon>
                         Remove
                     </nb-action>
@@ -52,12 +52,11 @@
             </nb-card-footer>
         </nb-card>
     </div>
-    <div class="col-xxxl-6 col-xxl-12 col-md-7">
+    <div class="col-xxxl-6 col-xxl-12 col-md-12">
         <nb-card size="large">
             <nb-card-header>
                 Product Details
             </nb-card-header>
-
             <nb-card-body>
                 <form>
                     <div class="form-group row">
@@ -82,30 +81,103 @@
                     </div>
                     <div class="form-group row">
                         <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-8">
                             <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
-                            
+                            <div class="content editor">
+                                <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+                                </ngx-editor-menu>
+                                <ngx-editor [editor]="editor" formControlName="productheighlight">
+                                </ngx-editor>
+                            </div>
                         </div>
                     </div>
-                    <!-- <div class="form-group row">
-                        <label for="inputReview" class="label col-sm-2 col-form-label">Avg. Review</label>
-                        <div class="col-sm-3">
-                            <input type="text" nbInput fullWidth id="inputReview" placeholder="Review">
-                        </div>
-                    </div> -->
-                    <!-- <div class="form-group row">
-                        <label class="col-sm-3 label">Radios</label>
-                        <div class="col-sm-9"> -->
-                            <!-- <nb-radio-group>
-                            <nb-radio>Option 1</nb-radio>
-                            <nb-radio>Option 2</nb-radio>
-                            <nb-radio disabled>Disabled Option</nb-radio>
-                          </nb-radio-group> -->
-                        <!-- </div>
-                    </div> -->
                     <div class="form-group row">
-                        <div class="offset-sm-3 col-sm-9">
-                            <button type="submit" nbButton status="primary">Sign in</button>
+                        <div class="offset-sm-2 col-sm-9">
+                            <button type="submit" nbButton status="primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xxxl-6 col-xxl-12 col-md-12">
+        <nb-card size="large">
+            <nb-card-header>
+                Product Information
+            </nb-card-header>
+            <nb-card-body>
+                <form>
+                    <div class="form-group row">
+                        <!-- <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label> -->
+                        <div class="col-sm-12">
+                            <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
+                            <div class="content editor" style="height: 450px;">
+                                <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+                                </ngx-editor-menu>
+                                <ngx-editor [editor]="editor" formControlName="productInformation">
+                                </ngx-editor>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-9">
+                            <button type="submit" nbButton status="primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-xxxl-3 col-xxl-12 col-md-12">
+        <nb-card size="large">
+            <nb-card-header>
+               Last Purchased
+            </nb-card-header>
+            <nb-card-body>
+                <form>
+                    <div class="form-group row">
+                        <!-- <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label> -->
+                        <div class="col-sm-12">
+                            <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
+                            <!-- <nb-list>
+                                <nb-list-item class="contact" *ngFor="let c of contacts">
+                                    <nb-user [picture]="c.customerDetails?.picturePic" [name]="c.customerDetails.email" [title]="c.type" size="large">
+                                    </nb-user>
+                                    <button nbButton shape="round">
+                                        <nb-icon icon="corner-down-right-outline" pack="eva"></nb-icon>
+                                    </button>
+                                </nb-list-item>
+                            </nb-list> -->
+                        </div>
+                    </div>
+                </form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <div class="col-xxxl-3 col-xxl-12 col-md-12">
+        <nb-card size="large">
+            <nb-card-header>
+               Customer Review
+            </nb-card-header>
+            <nb-card-body>
+                <form>
+                    <div class="form-group row">
+                        <!-- <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label> -->
+                        <div class="col-sm-12">
+                            <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
+                            <!-- <nb-list>
+                                <nb-list-item class="contact" *ngFor="let c of contacts">
+                                    <nb-user [picture]="c.customerDetails?.picturePic" [name]="c.customerDetails.email" [title]="c.type" size="large">
+                                    </nb-user>
+                                    <button nbButton shape="round">
+                                        <nb-icon icon="corner-down-right-outline" pack="eva"></nb-icon>
+                                    </button>
+                                </nb-list-item>
+                            </nb-list> -->
                         </div>
                     </div>
                 </form>

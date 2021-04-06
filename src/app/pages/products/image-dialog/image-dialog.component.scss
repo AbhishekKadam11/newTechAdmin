@@ -1,0 +1,19 @@
+@import '../../../@theme/styles/themes.scss';
+
+@include nb-install-component() {
+  nb-card {
+    max-width: 600px;
+    max-height: 500px;
+  }
+}
+
+#uploadFile {
+  top: 0px;
+  left: 0px;
+  width: 100%;    
+  z-index: 9;
+  opacity: 0;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+}

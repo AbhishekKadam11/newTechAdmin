@@ -17,7 +17,7 @@ export class CustomerOrderComponent implements OnInit {
   recent: any[];
 
   constructor(private userService: UserData) {
-  console.log(" this.loading", this.loading)
+  // console.log(" this.loading", this.loading)
     forkJoin(
       this.userService.getContacts(),
       this.userService.getRecentUsers(),
@@ -33,9 +33,9 @@ export class CustomerOrderComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     // only run when property "data" changed
     if (changes['data'] && this.data.length > 0) {
-       console.log("this.data",this.data)
+      //  console.log("this.data",this.data)
        this.loading = false;
-       console.log(" this.loading", this.loading)
+      //  console.log(" this.loading", this.loading)
     }
 }
 
