@@ -5,10 +5,10 @@
     <div class="container-fluid d-flex align-items-center">
         <div class="row">
             <div class="col-lg-7 col-md-10">
-                <h1 class="display-2 text-white">Hello Jesse</h1>
-                <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress
+                <h1 class="display-2 text-white">{{profileName.value}}</h1>
+                <!-- <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress
                     you've made with your work and manage your projects or assigned tasks</p><a class="btn btn-info"
-                    href="#!">Edit profile</a>
+                    href="#!">Edit profile</a> -->
             </div>
         </div>
     </div>
@@ -22,11 +22,55 @@
                 Customer details
             </nb-card-header>
             <nb-card-body>
+                <form style="margin: 10px;" [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group row">
+                        <label for="email" class="label col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-3">
+                            <input type="text" nbInput fullWidth id="email" placeholder="Email" formControlName="email"
+                                #email>
+                        </div>
+                        <label for="profileName" class="label col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-3">
+                            <input type="text" nbInput fullWidth id="profileName" placeholder="Profile name"
+                                formControlName="profileName" #profileName>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="gender" class="label col-sm-2 col-form-label">Gender</label>
+                        <div class="col-sm-3">
+                            <nb-radio-group [(value)]="gender" formControlName="gender">
+                                <nb-radio id="gender" [value]="'male'">
+                                    Male
+                                </nb-radio>
+                                <nb-radio id="gender" [value]="'female'">
+                                    Female
+                                </nb-radio>
+                            </nb-radio-group>
+                        </div>
+                        <label for="mobileNo" class="label col-sm-2 col-form-label">Mobile No</label>
+                        <div class="col-sm-3">
+                            <input type="text" nbInput fullWidth id="mobileNo" placeholder="Mobile No"
+                                formControlName="mobileNo" #mobileNo>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="address" class="label col-sm-2 col-form-label">Address</label>
+                        <div class="col-sm-6">
+                            <input type="textarea" nbInput fullWidth id="address" placeholder="Address"
+                                formControlName="address" #address>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="offset-sm-2 col-sm-9">
+                            <button type="submit" nbButton status="primary">Save</button>
+                        </div>
+                    </div>
+                </form>
             </nb-card-body>
         </nb-card>
     </div>
 
-    <div class="col-xxxl-4 col-xxl-4 col-lg-4 col-md-12">
+    <div class="col-xxxl-4 col-xxl-4 col-lg-4 col-md-12 col-sm-12">
         <div class="row justify-content-center">
 
             <div class="card-profile-image">
@@ -37,42 +81,39 @@
         </div>
         <nb-card size="large">
             <nb-card-body>
-                <form>
-                    <div class="form-group row">
-                        <label for="inputEmail" class="label col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-3">
-                            <input type="text" nbInput fullWidth id="inputEmail" placeholder="Email">
-                        </div>
-                        <label for="inputname" class="label col-sm-2 col-form-label">Profile name</label>
-                        <div class="col-sm-3">
-                            <input type="text" nbInput fullWidth id="inputname" placeholder="Profile name">
+                <div class="row mt150">
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-sm-12">
+                            <h5>{{email.value}}</h5>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="inputGender" class="label col-sm-2 col-form-label">Gender</label>
-                        <!-- <div class="col-sm-3">
-                            <input type="radio" value="Female" class="custom-control-input" name="gridRadios">
-                            <span class="custom-control-indicator"></span>
-                            <span class="custom-control-description">Fe-male</span>
-                        </div> -->
-                        <label for="inputMobile" class="label col-sm-2 col-form-label">Mobile No</label>
-                        <div class="col-sm-3">
-                            <input type="text" nbInput fullWidth id="inputMobile" placeholder="Mobile No">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h6>{{mobileNo.value}}</h6>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row"> -->
+                    <div class="item text-basic">
+                        <div class="color bg-body"></div>
+                        <div>
+                          <h5 class="text-basic textCenter">{{email.value}}</h5>
+                       
+                        </div>
+                      </div>
+                    <div class="item text-hint">
+                        <div class="color bg-hint"></div>
+                        <div>
+                            <h6 class="text-hint textCenter">{{mobileNo.value}}</h6> 
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label>
-                        <div class="col-sm-8">
-                            <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
-                         
+                    <div class="item text-hint">
+                        <div class="color bg-hint"></div>
+                        <div>
+                            <div class="text-hint textCenter">{{address.value}}</div> 
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-9">
-                            <button type="submit" nbButton status="primary">Save</button>
-                        </div>
-                    </div>
-                </form>
+                <!-- </div> -->
             </nb-card-body>
         </nb-card>
     </div>
