@@ -29,10 +29,16 @@ const routes: Routes = [{
       path: 'products',
       loadChildren: () => import('./products/products.module')
         .then(m => m.ProductModule),
-    }, {
+    },
+    {
       path: 'customer',
       loadChildren: () => import('./customer/customer.module')
         .then(m => m.CustomerModule),
+    },
+    {
+      path: 'products/upload',
+      loadChildren: () => import('./products/products.module')
+        .then(m => m.ProductModule),
     },
     {
       path: 'layout',

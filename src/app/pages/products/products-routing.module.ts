@@ -21,6 +21,10 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'upload',
+    component: ProductDetailsComponent,
+  },
 ];
 
 @NgModule({

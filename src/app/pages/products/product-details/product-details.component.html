@@ -1,46 +1,47 @@
-<div class="row">
-    <div class="col-xxxl-6 col-xxl-12 col-md-12">
-        <nb-card size="large">
-            <nb-card-header>
-                Product Images
-                <button class="single-view-button" nbButton size="small"
-                    [appearance]="isSingleView ? 'filled' : 'outline'" (click)="isSingleView = true">
-                    <i class="nb-square"></i>
-                </button>
-                <button class="grid-view-button" nbButton size="small"
-                    [appearance]="isSingleView ? 'outline' : 'filled'" (click)="isSingleView = false">
-                    <nb-icon icon="grid" pack="eva"></nb-icon>
-                </button>
-            </nb-card-header>
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+        <div class="col-xxxl-6 col-xxl-12 col-md-12">
+            <nb-card size="large">
+                <nb-card-header>
+                    Product Images
+                    <button class="single-view-button" nbButton size="small"
+                        [appearance]="isSingleView ? 'filled' : 'outline'" (click)="isSingleView = true">
+                        <i class="nb-square"></i>
+                    </button>
+                    <button class="grid-view-button" nbButton size="small"
+                        [appearance]="isSingleView ? 'outline' : 'filled'" (click)="isSingleView = false">
+                        <nb-icon icon="grid" pack="eva"></nb-icon>
+                    </button>
+                </nb-card-header>
 
-            <div class="grid-container">
+                <div class="grid-container">
 
-                <div class="single-view" *ngIf="isSingleView">
-                    <div class="camera" [style.background-image]="'url(' + selectedCamera.source + ')'">
-                        <!-- <span class="camera-name">{{ selectedCamera.title }}</span> -->
+                    <div class="single-view" *ngIf="isSingleView">
+                        <div class="camera" [style.background-image]="'url(' + selectedCamera.source + ')'">
+                            <!-- <span class="camera-name">{{ selectedCamera.title }}</span> -->
+                        </div>
                     </div>
+
+                    <div class="grid-view" *ngIf="!isSingleView">
+                        <div class="camera" *ngFor="let camera of cameras"
+                            [style.background-image]="'url(' + camera.source + ')'" (click)="selectCamera(camera)">
+                            <!-- <span class="camera-name">{{ camera.title }}</span> -->
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="grid-view" *ngIf="!isSingleView">
-                    <div class="camera" *ngFor="let camera of cameras"
-                        [style.background-image]="'url(' + camera.source + ')'" (click)="selectCamera(camera)">
-                        <!-- <span class="camera-name">{{ camera.title }}</span> -->
-                    </div>
-                </div>
-
-            </div>
-
-            <nb-card-footer>
-                <nb-actions [size]="actionSize" fullWidth>
-                    <nb-action nbButton (click)="addImage()">
-                        <nb-icon icon="plus-square-outline" pack="eva"></nb-icon>
-                        Add
-                    </nb-action>
-                    <nb-action nbButton>
-                        <nb-icon icon="file-remove-outline" pack="eva"></nb-icon>
-                        Remove
-                    </nb-action>
-                    <!-- <nb-action>
+                <nb-card-footer>
+                    <nb-actions [size]="actionSize" fullWidth>
+                        <nb-action nbButton (click)="addImage()">
+                            <nb-icon icon="plus-square-outline" pack="eva"></nb-icon>
+                            Add
+                        </nb-action>
+                        <nb-action nbButton>
+                            <nb-icon icon="file-remove-outline" pack="eva"></nb-icon>
+                            Remove
+                        </nb-action>
+                        <!-- <nb-action>
                     <nb-icon icon="search-outline" pack="eva"></nb-icon>
                     Search
                 </nb-action>
@@ -48,101 +49,123 @@
                     <nb-icon icon="settings-2-outline" pack="eva"></nb-icon>
                     Setup
                 </nb-action> -->
-                </nb-actions>
-            </nb-card-footer>
-        </nb-card>
-    </div>
-    <div class="col-xxxl-6 col-xxl-12 col-md-12">
-        <nb-card size="large">
-            <nb-card-header>
-                Product Details
-            </nb-card-header>
-            <nb-card-body>
-                <form>
-                    <div class="form-group row">
-                        <label for="inputbrand" class="label col-sm-2 col-form-label">Brand</label>
-                        <div class="col-sm-3">
-                            <input type="text" nbInput fullWidth id="inputbrand" placeholder="Brand">
-                        </div>
-                        <label for="inputTitle" class="label col-sm-2 col-form-label">Title</label>
-                        <div class="col-sm-3">
-                            <input type="text" nbInput fullWidth id="inputTitle" placeholder="Title">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="inputPrice" class="label col-sm-2 col-form-label">Price</label>
-                        <div class="col-sm-3">
-                            <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price">
-                        </div>
-                        <label for="inputReview" class="label col-sm-2 col-form-label">Avg. Review</label>
-                        <div class="col-sm-3">
-                            <input type="text" nbInput fullWidth id="inputReview" placeholder="Review">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label>
-                        <div class="col-sm-8">
-                            <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
-                            <div class="content editor">
-                                <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
-                                </ngx-editor-menu>
-                                <ngx-editor [editor]="editor" formControlName="productheighlight">
-                                </ngx-editor>
+                    </nb-actions>
+                </nb-card-footer>
+            </nb-card>
+        </div>
+        <div class="col-xxxl-6 col-xxl-12 col-md-12">
+            <nb-card size="large">
+                <nb-card-header>
+                    Product Details
+                </nb-card-header>
+                <nb-card-body>
+                        <div class="form-group row">
+                            <label for="inputCategory" class="label col-sm-2 col-form-label">Category</label>
+                            <div class="col-sm-3">
+                                <ng-select [(ngModel)]="selectedCar" formControlName="category">
+                                    <ng-option *ngFor="let car of cars" [value]="car.id">{{car.name}}</ng-option>
+                                </ng-select>
+                            </div>
+                            <label for="inputbrand" class="label col-sm-2 col-form-label">Brand</label>
+                            <div class="col-sm-3">
+                                <ng-select [(ngModel)]="selectedCar" formControlName="brand">
+                                    <ng-option *ngFor="let car of cars" [value]="car.id">{{car.name}}</ng-option>
+                                </ng-select>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-9">
-                            <button type="submit" nbButton status="primary">Save</button>
-                        </div>
-                    </div>
-                </form>
-            </nb-card-body>
-        </nb-card>
-    </div>
-</div>
+                        <div class="form-group row">
+                            <label for="inputTitle" class="label col-sm-2 col-form-label">Title</label>
+                            <div class="col-sm-3">
+                                <input type="text" nbInput fullWidth id="inputTitle" placeholder="Title"
+                                    formControlName="title">
+                            </div>
+                            <label for="inputModel" class="label col-sm-2 col-form-label">Model No</label>
+                            <div class="col-sm-3">
+                                <input type="text" nbInput fullWidth id="inputModel" placeholder="Model No"
+                                    formControlName="modelNo">
+                            </div>
 
-<div class="row">
-    <div class="col-xxxl-6 col-xxl-12 col-md-12">
-        <nb-card size="large">
-            <nb-card-header>
-                Product Information
-            </nb-card-header>
-            <nb-card-body>
-                <form>
-                    <div class="form-group row">
-                        <!-- <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label> -->
-                        <div class="col-sm-12">
-                            <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
-                            <div class="content editor" style="height: 450px;">
-                                <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
-                                </ngx-editor-menu>
-                                <ngx-editor [editor]="editor" formControlName="productInformation">
-                                </ngx-editor>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPrice" class="label col-sm-2 col-form-label">Price</label>
+                            <div class="col-sm-3">
+                                <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"
+                                    formControlName="price">
+                            </div>
+                            <label for="inputReview" class="label col-sm-2 col-form-label">Avg. Review</label>
+                            <div class="col-sm-3">
+                                <input type="text" nbInput fullWidth id="inputReview" placeholder="Review">
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-9">
-                            <button type="submit" nbButton status="primary">Save</button>
+                        <div class="form-group row">
+                            <label for="inputQuntity" class="label col-sm-2 col-form-label">Quntity</label>
+                            <div class="col-sm-3">
+                                <input type="number" nbInput fullWidth id="inputQuntity" placeholder="Quntity"
+                                    formControlName="quntity">
+                            </div>
+
                         </div>
-                    </div>
-                </form>
-            </nb-card-body>
-        </nb-card>
+                        <div class="form-group row">
+                            <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label>
+                            <div class="col-sm-8">
+                                <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
+                                
+                                <div class="content editor">
+                                    <ngx-editor-menu [editor]="editor1" [toolbar]="toolbar">
+                                    </ngx-editor-menu>
+                                    <ngx-editor [editor]="editor1" [ngModel]="html" formControlName="shortdescription">
+                                    </ngx-editor>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="offset-sm-2 col-sm-9">
+                                <button type="submit" nbButton status="primary">Save</button>
+                            </div>
+                        </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
     </div>
-    <div class="col-xxxl-3 col-xxl-12 col-md-12">
-        <nb-card size="large">
-            <nb-card-header>
-               Last Purchased
-            </nb-card-header>
-            <nb-card-body>
-                <form>
-                    <div class="form-group row">
-                        <!-- <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label> -->
-                        <div class="col-sm-12">
-                            <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
-                            <!-- <nb-list>
+
+    <div class="row">
+        <div class="col-xxxl-6 col-xxl-12 col-md-12">
+            <nb-card size="large">
+                <nb-card-header>
+                    Product Information
+                </nb-card-header>
+                <nb-card-body>
+                        <div class="form-group row">
+                            <!-- <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label> -->
+                            <div class="col-sm-12">
+                                <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
+                                <div class="content editor" style="height: 450px;">
+                                    <ngx-editor-menu [editor]="editor2" [toolbar]="toolbar">
+                                    </ngx-editor-menu>
+                                    <ngx-editor [editor]="editor2" formControlName="fulldescription">
+                                    </ngx-editor>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-9">
+                                <button type="submit" nbButton status="primary">Save</button>
+                            </div>
+                        </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+        <div class="col-xxxl-3 col-xxl-12 col-md-12">
+            <nb-card size="large">
+                <nb-card-header>
+                    Last Purchased
+                </nb-card-header>
+                <nb-card-body>
+                        <div class="form-group row">
+                            <!-- <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label> -->
+                            <div class="col-sm-12">
+                                <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
+                                <!-- <nb-list>
                                 <nb-list-item class="contact" *ngFor="let c of contacts">
                                     <nb-user [picture]="c.customerDetails?.picturePic" [name]="c.customerDetails.email" [title]="c.type" size="large">
                                     </nb-user>
@@ -151,25 +174,23 @@
                                     </button>
                                 </nb-list-item>
                             </nb-list> -->
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </nb-card-body>
-        </nb-card>
-    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
 
-    <div class="col-xxxl-3 col-xxl-12 col-md-12">
-        <nb-card size="large">
-            <nb-card-header>
-               Customer Review
-            </nb-card-header>
-            <nb-card-body>
-                <form>
-                    <div class="form-group row">
-                        <!-- <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label> -->
-                        <div class="col-sm-12">
-                            <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
-                            <!-- <nb-list>
+        <div class="col-xxxl-3 col-xxl-12 col-md-12">
+            <nb-card size="large">
+                <nb-card-header>
+                    Customer Review
+                </nb-card-header>
+                <nb-card-body>
+                        <div class="form-group row">
+                            <!-- <label for="heighlight" class="label col-sm-2 col-form-label">Product heighlight</label> -->
+                            <div class="col-sm-12">
+                                <!-- <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price"> -->
+                                <!-- <nb-list>
                                 <nb-list-item class="contact" *ngFor="let c of contacts">
                                     <nb-user [picture]="c.customerDetails?.picturePic" [name]="c.customerDetails.email" [title]="c.type" size="large">
                                     </nb-user>
@@ -178,10 +199,10 @@
                                     </button>
                                 </nb-list-item>
                             </nb-list> -->
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </nb-card-body>
-        </nb-card>
+                </nb-card-body>
+            </nb-card>
+        </div>
     </div>
-</div>
+</form>

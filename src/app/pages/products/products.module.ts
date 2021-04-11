@@ -8,7 +8,8 @@ import { GridJsAngularModule } from 'gridjs-angular';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { NgxEditorModule } from "ngx-editor";
 import { AddImageDialogComponent } from './image-dialog/image-dialog.component';
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgSelectModule } from "@ng-select/ng-select";
 
 @NgModule({
     imports: [
@@ -25,6 +26,8 @@ import { ReactiveFormsModule } from "@angular/forms";
       NbUserModule,
       NbDialogModule.forChild(),
       ReactiveFormsModule,
+      NgSelectModule,
+      FormsModule,
     ],
     declarations: [
       ProductsComponent,

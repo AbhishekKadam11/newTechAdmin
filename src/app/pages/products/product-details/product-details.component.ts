@@ -6,7 +6,7 @@ import { NbComponentSize, NbDialogService, NbMediaBreakpointsService, NbThemeSer
 import { Camera, SecurityCamerasData } from '../../../@core/data/security-cameras';
 import { ActivatedRoute } from '@angular/router';
 import { Editor, Toolbar } from 'ngx-editor';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
 import { AddImageDialogComponent } from '../image-dialog/image-dialog.component';
@@ -23,7 +23,8 @@ export class ProductDetailsComponent implements OnInit {
   selectedCamera: Camera;
   isSingleView = false;
   actionSize: NbComponentSize = 'medium';
-  editor: Editor;
+  editor1: Editor;
+  editor2: Editor;
   toolbar: Toolbar = [
     ["bold", "italic"],
     ["underline", "strike"],
@@ -38,32 +39,53 @@ export class ProductDetailsComponent implements OnInit {
   private alive = true;
   contacts: any[];
   recent: any[];
+  cars = [
+    { id: 1, name: 'Volvo' },
+    { id: 2, name: 'Saab' },
+    { id: 3, name: 'Opel' },
+    { id: 4, name: 'Audi' },
+  ];
+  selectedCar: number = 0;
+  html: '';
+
+  productForm =  this.fb.group({
+    category: new FormControl(),
+    brand: new FormControl(),
+    title: new FormControl(),
+    modelNo: new FormControl(),
+    price: new FormControl(),
+    quntity: new FormControl(),
+    shortdescription: new FormControl(),
+    fulldescription: new FormControl(),
+  });
 
   constructor(private themeService: NbThemeService,
     private breakpointService: NbMediaBreakpointsService,
     private securityCamerasService: SecurityCamerasData,
     private userService: UserData,
     private dialogService: NbDialogService,
+    private fb: FormBuilder,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.editor = new Editor();
+    this.editor1 = new Editor();
+    this.editor2 = new Editor();
     let productid = this.activatedRoute.snapshot.params.id;
-    console.log("productid",productid);
+    console.log("productid", productid);
 
     this.securityCamerasService.getCamerasData()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((cameras: Camera[]) => {
-      this.cameras = cameras;
-      this.selectedCamera = this.cameras[0];
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((cameras: Camera[]) => {
+        this.cameras = cameras;
+        this.selectedCamera = this.cameras[0];
+      });
 
-  const breakpoints = this.breakpointService.getBreakpointsMap();
-  this.themeService.onMediaQueryChange()
-    .pipe(map(([, breakpoint]) => breakpoint.width))
-    .subscribe((width: number) => {
-      this.actionSize = width > breakpoints.md ? 'medium' : 'small';
-    });
+    const breakpoints = this.breakpointService.getBreakpointsMap();
+    this.themeService.onMediaQueryChange()
+      .pipe(map(([, breakpoint]) => breakpoint.width))
+      .subscribe((width: number) => {
+        this.actionSize = width > breakpoints.md ? 'medium' : 'small';
+      });
 
     forkJoin(
       this.userService.getContacts(),
@@ -76,17 +98,17 @@ export class ProductDetailsComponent implements OnInit {
       });
   }
 
-  form = new FormGroup({
-    productheighlight: new FormControl(),
-    productInformation: new FormControl()
-  });
+  // form = new FormGroup({
+  //   shortdescription: new FormControl(),
+  //   productInformation: new FormControl()
+  // });
 
   get doc(): AbstractControl {
-    return this.form.get("productheighlight");
+    return this.productForm.get("shortdescription");
   }
 
   get doc1(): AbstractControl {
-    return this.form.get("productInformation");
+    return this.productForm.get("fulldescription");
   }
 
   addImage() {
@@ -97,10 +119,16 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
+  onSubmit() {
+    console.log(this.productForm.value);
+    console.log("this.html", this.html);
+  }
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-    this.editor.destroy();
+    this.editor1.destroy();
+    this.editor2.destroy();
   }
 
   selectCamera(camera: any) {
