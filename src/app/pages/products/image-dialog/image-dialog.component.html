@@ -1,10 +1,10 @@
-<nb-card>
+<form [formGroup]="myForm" (ngSubmit)="submit()">
+  <nb-card>
     <nb-card-header>{{ title }}</nb-card-header>
     <nb-card-body>
-      <form [formGroup]="myForm" (ngSubmit)="submit()">
-         
-        <div class="form-group">
-            <!-- <label for="file">File</label>
+
+      <div class="form-group">
+        <!-- <label for="file">File</label>
             <input
                 formControlName="file"
                 id="file"
@@ -13,23 +13,27 @@
                 #uploadFile
                 class="form-control"
                 (change)="onFileChange($event)"> -->
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" formControlName="importFile" id="importFile"
-                  (change)="onFileChange($event)">
-                  <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Choose file</label>
-                </div>
-            <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" formControlName="file" id="importFile"
+            (change)="onFileChange($event)">
+          <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Choose
+            file</label>
+        </div>
+        <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
                 <div *ngIf="f.file.errors.required">File is required.</div>
             </div> -->
-        </div>
-         
-        <img [src]="imageSrc" *ngIf="imageSrc" style="height: 300px; width:500px">
-             
-        <!-- <button class="btn btn-primary" type="submit">Submit</button> -->
-    </form>
+      </div>
+
+      <img [src]="imageSrc" *ngIf="imageSrc" style="height: 300px; width:500px">
+
+      <!-- <button class="btn btn-primary" type="submit">Submit</button> -->
+
     </nb-card-body>
     <nb-card-footer>
-      <button nbButton hero status="primary" (click)="dismiss()">Upload</button>
+      <!-- <button nbButton hero status="primary" (click)="dismiss()">Upload</button> -->
+      <!-- <button nbButton hero status="primary" type="submit">Upload</button> -->
+      <button type="submit" nbButton status="primary">Upload</button>
     </nb-card-footer>
+
   </nb-card>
-  
+</form>

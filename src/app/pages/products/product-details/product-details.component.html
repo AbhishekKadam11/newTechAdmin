@@ -155,7 +155,7 @@
                 </nb-card-body>
             </nb-card>
         </div>
-        <div class="col-xxxl-3 col-xxl-12 col-md-12">
+        <div class="col-xxxl-3 col-xxl-12 col-md-12" *ngIf="isNew">
             <nb-card size="large">
                 <nb-card-header>
                     Last Purchased
@@ -180,7 +180,7 @@
             </nb-card>
         </div>
 
-        <div class="col-xxxl-3 col-xxl-12 col-md-12">
+        <div class="col-xxxl-3 col-xxl-12 col-md-12" *ngIf="isNew">
             <nb-card size="large">
                 <nb-card-header>
                     Customer Review

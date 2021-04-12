@@ -5,7 +5,7 @@ import { NbComponentSize, NbDialogService, NbMediaBreakpointsService, NbThemeSer
 
 import { Camera, SecurityCamerasData } from '../../../@core/data/security-cameras';
 import { ActivatedRoute } from '@angular/router';
-import { Editor, Toolbar } from 'ngx-editor';
+import { Editor, Toolbar, toHTML } from 'ngx-editor';
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
@@ -22,6 +22,7 @@ export class ProductDetailsComponent implements OnInit {
   cameras: Camera[];
   selectedCamera: Camera;
   isSingleView = false;
+  isNew = false;
   actionSize: NbComponentSize = 'medium';
   editor1: Editor;
   editor2: Editor;
@@ -71,7 +72,12 @@ export class ProductDetailsComponent implements OnInit {
     this.editor1 = new Editor();
     this.editor2 = new Editor();
     let productid = this.activatedRoute.snapshot.params.id;
-    console.log("productid", productid);
+    // console.log("productid", productid);
+    if(productid) {
+      this.isNew = true;
+    } else {
+      this.isNew = false;
+    }
 
     this.securityCamerasService.getCamerasData()
       .pipe(takeUntil(this.destroy$))
@@ -121,7 +127,9 @@ export class ProductDetailsComponent implements OnInit {
 
   onSubmit() {
     console.log(this.productForm.value);
-    console.log("this.html", this.html);
+  
+    const html = toHTML(this.productForm.value.shortdescription);
+      // console.log("this.html", html);
   }
 
   ngOnDestroy() {

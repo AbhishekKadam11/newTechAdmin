@@ -27,7 +27,7 @@ export class AddImageDialogComponent implements OnInit {
     
   onFileChange(event) {
     const reader = new FileReader();
-     
+    
     if(event.target.files && event.target.files.length) {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
@@ -43,10 +43,12 @@ export class AddImageDialogComponent implements OnInit {
       };
     
     }
+    console.log(event.target.files);
   }
 
   submit(){
-    console.log(this.myForm.value);
+    console.log("this.myForm.value");
+    console.log("this.myForm.value",this.myForm.value);
    
   }
 
