@@ -48,6 +48,7 @@ export class ProductDetailsComponent implements OnInit {
   ];
   selectedCar: number = 0;
   html: '';
+  imageData: any;
 
   productForm =  this.fb.group({
     category: new FormControl(),
@@ -102,6 +103,7 @@ export class ProductDetailsComponent implements OnInit {
         this.contacts = contacts;
         this.recent = recent;
       });
+
   }
 
   // form = new FormGroup({
@@ -118,10 +120,12 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addImage() {
-    this.dialogService.open(AddImageDialogComponent, {
+   this.imageData = this.dialogService.open(AddImageDialogComponent, {
       context: {
         title: 'Add Image',
       },
+    }).onClose.subscribe(result => {
+      console.log(JSON.stringify(result));
     });
   }
 

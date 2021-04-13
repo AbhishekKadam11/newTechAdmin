@@ -32,8 +32,16 @@
     <nb-card-footer>
       <!-- <button nbButton hero status="primary" (click)="dismiss()">Upload</button> -->
       <!-- <button nbButton hero status="primary" type="submit">Upload</button> -->
-      <button type="submit" nbButton status="primary">Upload</button>
+      <div class="row">
+      <div class="col-xxxl-6 col-xxl-12 col-md-12">
+        <button type="submit" nbButton status="primary">Upload</button>
+      </div>
+      <div class="col-xxxl-6 col-xxl-12 col-md-12">
+        <div class="form-group">
+          <nb-checkbox formControlName="isPosterImage">Setup poster</nb-checkbox>
+        </div>
+      </div>
+    </div>
     </nb-card-footer>
-
   </nb-card>
 </form>
