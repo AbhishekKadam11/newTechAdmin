@@ -13,6 +13,7 @@ import {
   NbInputModule,
   NbSidebarModule,
   NbLayoutModule,
+  NbSpinnerModule,
 } from '@nebular/theme';
 import { AuthComponent } from './auth/auth.component';
 import { NgxLoginComponent } from './login/login.component';
@@ -31,6 +32,7 @@ import { NgxLoginComponent } from './login/login.component';
     NbAuthModule,
     NbSidebarModule.forRoot(),
     NbLayoutModule,
+    NbSpinnerModule,
   ],
   declarations: [
     AuthComponent,

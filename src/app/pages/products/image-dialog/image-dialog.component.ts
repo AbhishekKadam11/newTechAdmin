@@ -14,8 +14,9 @@ export class AddImageDialogComponent implements OnInit {
   imageSrc: string;
   myForm = new FormGroup({
     file: new FormControl('', [Validators.required]),
-    fileSource: new FormControl('', [Validators.required]),
-    isPosterImage: new FormControl('')
+    source: new FormControl('', [Validators.required]),
+    isPosterImage: new FormControl(''),
+    title: new FormControl(''),
   });
 
   constructor(protected ref: NbDialogRef<AddImageDialogComponent>) { }
@@ -32,6 +33,7 @@ export class AddImageDialogComponent implements OnInit {
 
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
+      // console.log(event.target.files[0]['name'])
       reader.readAsDataURL(file);
 
       reader.onload = () => {
@@ -39,7 +41,8 @@ export class AddImageDialogComponent implements OnInit {
         this.imageSrc = reader.result as string;
 
         this.myForm.patchValue({
-          fileSource: reader.result
+          source: reader.result,
+          title: event.target.files[0]['name']
         });
 
       };

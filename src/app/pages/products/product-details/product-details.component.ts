@@ -19,7 +19,7 @@ import { AddImageDialogComponent } from '../image-dialog/image-dialog.component'
 export class ProductDetailsComponent implements OnInit {
   private destroy$ = new Subject<void>();
 
-  cameras: Camera[];
+  cameras: Camera[] = [];
   selectedCamera: Camera;
   isSingleView = false;
   isNew = false;
@@ -59,6 +59,8 @@ export class ProductDetailsComponent implements OnInit {
     quntity: new FormControl(),
     shortdescription: new FormControl(),
     fulldescription: new FormControl(),
+    image: new FormControl(),
+    productimages: new FormControl(),
   });
 
   constructor(private themeService: NbThemeService,
@@ -80,12 +82,13 @@ export class ProductDetailsComponent implements OnInit {
       this.isNew = false;
     }
 
-    this.securityCamerasService.getCamerasData()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((cameras: Camera[]) => {
-        this.cameras = cameras;
-        this.selectedCamera = this.cameras[0];
-      });
+    // this.securityCamerasService.getCamerasData()
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe((cameras: Camera[]) => {
+    //     this.cameras = cameras;
+    //     console.log("cameras",cameras)
+    //     this.selectedCamera = this.cameras[0];
+    //   });
 
     const breakpoints = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
@@ -125,13 +128,17 @@ export class ProductDetailsComponent implements OnInit {
         title: 'Add Image',
       },
     }).onClose.subscribe(result => {
-      console.log(JSON.stringify(result));
+      this.cameras.push({"title": "image", "source": result.source})
+      if(result.isPosterImage) {
+        this.productForm.value.image = result.fileSource;
+      }
+     // console.log("result",JSON.stringify(result));
     });
   }
 
   onSubmit() {
-    console.log(this.productForm.value);
-  
+    // console.log(this.productForm.value.file);
+    // this.cameras.push({"title": "image", "source": this.productForm.value.file})
     const html = toHTML(this.productForm.value.shortdescription);
       // console.log("this.html", html);
   }

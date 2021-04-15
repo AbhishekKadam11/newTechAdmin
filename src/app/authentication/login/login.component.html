@@ -67,6 +67,8 @@
 
   <button nbButton
           fullWidth
+          [nbSpinner]="loadingMediumGroup" 
+          nbSpinnerStatus="info" nbSpinnerSize="small"
           status="success"
           [disabled]="submitted || !form.valid"
           [class.btn-pulse]="submitted">

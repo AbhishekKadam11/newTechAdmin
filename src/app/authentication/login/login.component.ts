@@ -14,6 +14,7 @@ export class NgxLoginComponent {
   user: any = {};
   submitted: boolean = false;
   errors:any = [];
+  loadingMediumGroup = false;
 
   constructor(protected service: NbAuthService,
     @Inject(NB_AUTH_OPTIONS) protected options = {},
@@ -30,15 +31,20 @@ export class NgxLoginComponent {
     this.errors = [];
     this.messages = [];
     this.submitted = true;
+    this.loadingMediumGroup = true;
+
     // console.log(this.user);
     this.authService.login(this.user).subscribe((result)=>{
         // console.log(result);
         this.submitted = false;
+
         if (result['success']) {
           this.router.navigate(['/pages/home']);
+          this.loadingMediumGroup = false;
         } else {
           this.errors = [result['msg']];
           this.showMessages.error = result['msg'];
+          this.loadingMediumGroup = false;
           setTimeout(() => {
             this.errors = [];
           },3000)

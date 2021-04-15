@@ -14,10 +14,9 @@
                 class="form-control"
                 (change)="onFileChange($event)"> -->
         <div class="custom-file">
-          <input type="file" class="custom-file-input" formControlName="file" id="importFile"
+          <input type="file" class="custom-file-input" formControlName="file"  id="importFile"
             (change)="onFileChange($event)">
-          <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Choose
-            file</label>
+          <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i>Choose file</label>
         </div>
         <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
                 <div *ngIf="f.file.errors.required">File is required.</div>
