@@ -19,7 +19,7 @@ import { AddImageDialogComponent } from '../image-dialog/image-dialog.component'
 export class ProductDetailsComponent implements OnInit {
   private destroy$ = new Subject<void>();
 
-  cameras: Camera[] = [];
+  cameras: any = [];
   selectedCamera: Camera;
   isSingleView = false;
   isNew = false;
@@ -50,7 +50,7 @@ export class ProductDetailsComponent implements OnInit {
   html: '';
   imageData: any;
 
-  productForm =  this.fb.group({
+  productForm = this.fb.group({
     category: new FormControl(),
     brand: new FormControl(),
     title: new FormControl(),
@@ -76,7 +76,7 @@ export class ProductDetailsComponent implements OnInit {
     this.editor2 = new Editor();
     let productid = this.activatedRoute.snapshot.params.id;
     // console.log("productid", productid);
-    if(productid) {
+    if (productid) {
       this.isNew = true;
     } else {
       this.isNew = false;
@@ -123,16 +123,31 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addImage() {
-   this.imageData = this.dialogService.open(AddImageDialogComponent, {
+    this.imageData = this.dialogService.open(AddImageDialogComponent, {
       context: {
         title: 'Add Image',
       },
     }).onClose.subscribe(result => {
-      this.cameras.push({"title": "image", "source": result.source})
-      if(result.isPosterImage) {
+      this.cameras.push({ "title": result.title, "source": result.source, "isPosterImage": result.isPosterImage })
+      if (result.isPosterImage) {
         this.productForm.value.image = result.fileSource;
       }
-     // console.log("result",JSON.stringify(result));
+      // console.log("result",JSON.stringify(result));
+    });
+  }
+
+  viewImage() {
+    this.imageData = this.dialogService.open(AddImageDialogComponent, {
+      context: {
+        title: 'View Image',
+        data: this.cameras,
+      },
+    }).onClose.subscribe(result => {
+      // this.cameras.push({ "title": "image", "source": result.source })
+      // if (result.isPosterImage) {
+      //   this.productForm.value.image = result.fileSource;
+      // }
+      console.log("View Image",result)
     });
   }
 
@@ -140,7 +155,7 @@ export class ProductDetailsComponent implements OnInit {
     // console.log(this.productForm.value.file);
     // this.cameras.push({"title": "image", "source": this.productForm.value.file})
     const html = toHTML(this.productForm.value.shortdescription);
-      // console.log("this.html", html);
+    // console.log("this.html", html);
   }
 
   ngOnDestroy() {

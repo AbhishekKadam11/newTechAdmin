@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { EventEmitter } from 'events';
@@ -8,10 +8,13 @@ import { EventEmitter } from 'events';
   templateUrl: './image-dialog.component.html',
   styleUrls: ['./image-dialog.component.scss']
 })
-export class AddImageDialogComponent implements OnInit {
+export class AddImageDialogComponent implements OnInit, OnChanges  {
 
   @Input() title: string;
+  @Input() data: any;
   imageSrc: string;
+  imageData: any= [];
+  selectPosterImage;
   myForm = new FormGroup({
     file: new FormControl('', [Validators.required]),
     source: new FormControl('', [Validators.required]),
@@ -20,8 +23,17 @@ export class AddImageDialogComponent implements OnInit {
   });
 
   constructor(protected ref: NbDialogRef<AddImageDialogComponent>) { }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("this.data", this.data);
+  }
   ngOnInit(): void {
-
+    // console.log("data", this.data)
+    this.imageData = this.data;
+    for(let i of this.imageData) {
+      if(i['isPosterImage']) {
+        this.selectPosterImage = i['isPosterImage'];
+      }
+    }
   }
 
   get f() {
@@ -53,6 +65,11 @@ export class AddImageDialogComponent implements OnInit {
   submit() {
     console.log("this.myForm.value", this.myForm.value);
     this.ref.close(this.myForm.value);
+  }
+
+  setImages() {
+    // console.log("this.myForm.value", this.myForm.value);
+    this.ref.close(this.imageData);
   }
 
   dismiss(value) {
