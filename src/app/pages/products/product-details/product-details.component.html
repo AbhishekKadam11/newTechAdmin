@@ -62,14 +62,14 @@
                         <div class="form-group row">
                             <label for="inputCategory" class="label col-sm-2 col-form-label">Category</label>
                             <div class="col-sm-3">
-                                <ng-select [(ngModel)]="selectedCar" formControlName="category">
-                                    <ng-option *ngFor="let car of cars" [value]="car.id">{{car.name}}</ng-option>
+                                <ng-select formControlName="category">
+                                    <ng-option *ngFor="let cate of categoryList" [value]="cate.text">{{cate.text}}</ng-option>
                                 </ng-select>
                             </div>
                             <label for="inputbrand" class="label col-sm-2 col-form-label">Brand</label>
                             <div class="col-sm-3">
-                                <ng-select [(ngModel)]="selectedCar" formControlName="brand">
-                                    <ng-option *ngFor="let car of cars" [value]="car.id">{{car.name}}</ng-option>
+                                <ng-select formControlName="brand">
+                                    <ng-option *ngFor="let brand of brandList" [value]="brand.text">{{brand.text}}</ng-option>
                                 </ng-select>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                         <div class="form-group row">
                             <label for="inputQuntity" class="label col-sm-2 col-form-label">Quntity</label>
                             <div class="col-sm-3">
-                                <input type="number" nbInput fullWidth id="inputQuntity" placeholder="Quntity"
+                                <input type="number" min="1" nbInput fullWidth id="inputQuntity" placeholder="Quntity"
                                     formControlName="quntity">
                             </div>
 

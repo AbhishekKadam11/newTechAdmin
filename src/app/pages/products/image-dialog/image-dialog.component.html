@@ -43,7 +43,7 @@
                     <!-- <nb-radio name="isPosterImage" id="isPosterImage" [checked]="item.isPosterImage ? item.isPosterImage : false" >
                     </nb-radio> -->
                     <nb-radio-group [(value)]="selectPosterImage">
-                      <nb-radio
+                      <nb-radio (click)="setPosterImage(item.title)"
                       [value]="item.isPosterImage">
                      
                     </nb-radio>
@@ -52,7 +52,6 @@
               </tr>
           </tbody>
       </table>
-      {{data|json}}
   </div>
 
     </nb-card-body>

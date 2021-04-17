@@ -6,10 +6,11 @@ import { NbComponentSize, NbDialogService, NbMediaBreakpointsService, NbThemeSer
 import { Camera, SecurityCamerasData } from '../../../@core/data/security-cameras';
 import { ActivatedRoute } from '@angular/router';
 import { Editor, Toolbar, toHTML } from 'ngx-editor';
-import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
 import { AddImageDialogComponent } from '../image-dialog/image-dialog.component';
+import { ProductsService } from '../products.service';
 
 @Component({
   selector: 'ngx-product-details',
@@ -28,28 +29,27 @@ export class ProductDetailsComponent implements OnInit {
   editor2: Editor;
   toolbar: Toolbar = [
     ["bold", "italic"],
-    ["underline", "strike"],
+    ["underline"],
     ["code", "blockquote"],
     ["ordered_list", "bullet_list"],
     [{ heading: ["h1", "h2", "h3", "h4", "h5", "h6"] }],
     ["link", "image"],
     ["text_color", "background_color"],
-    ["align_left", "align_center", "align_right", "align_justify"]
+    ["align_left", "align_center", "align_right"]
   ];
 
   private alive = true;
   contacts: any[];
   recent: any[];
-  cars = [
-    { id: 1, name: 'Volvo' },
-    { id: 2, name: 'Saab' },
-    { id: 3, name: 'Opel' },
-    { id: 4, name: 'Audi' },
-  ];
-  selectedCar: number = 0;
+ 
+  // selectedCar: number = 0;
   html: '';
   imageData: any;
-
+  imageArray =[];
+  brandList =[];
+  categoryList =[];
+  shortdescriptionArray =[];
+  fulldescriptionArray =[];
   productForm = this.fb.group({
     category: new FormControl(),
     brand: new FormControl(),
@@ -69,6 +69,7 @@ export class ProductDetailsComponent implements OnInit {
     private userService: UserData,
     private dialogService: NbDialogService,
     private fb: FormBuilder,
+    private productsService: ProductsService,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -82,6 +83,11 @@ export class ProductDetailsComponent implements OnInit {
       this.isNew = false;
     }
 
+    this.productsService.productCategories()
+    .subscribe(result=>{
+      this.brandList = result['brandList'];
+      this.categoryList = result['categoryList'];
+    })
     // this.securityCamerasService.getCamerasData()
     //   .pipe(takeUntil(this.destroy$))
     //   .subscribe((cameras: Camera[]) => {
@@ -109,17 +115,12 @@ export class ProductDetailsComponent implements OnInit {
 
   }
 
-  // form = new FormGroup({
-  //   shortdescription: new FormControl(),
-  //   productInformation: new FormControl()
-  // });
-
-  get doc(): AbstractControl {
-    return this.productForm.get("shortdescription");
+  get shortdescription() {
+    return [this.productForm.get("shortdescription")];
   }
 
-  get doc1(): AbstractControl {
-    return this.productForm.get("fulldescription");
+  get fulldescription() {
+    return [this.productForm.get("fulldescription")];
   }
 
   addImage() {
@@ -129,10 +130,12 @@ export class ProductDetailsComponent implements OnInit {
       },
     }).onClose.subscribe(result => {
       this.cameras.push({ "title": result.title, "source": result.source, "isPosterImage": result.isPosterImage })
-      if (result.isPosterImage) {
-        this.productForm.value.image = result.fileSource;
-      }
-      // console.log("result",JSON.stringify(result));
+        if (result['isPosterImage']) {
+          this.productForm.controls.image.setValue(result['source'])
+        } else {
+          this.imageArray.push(result['source']);
+        }
+      this.productForm.controls.productimages.setValue(this.imageArray);
     });
   }
 
@@ -143,19 +146,25 @@ export class ProductDetailsComponent implements OnInit {
         data: this.cameras,
       },
     }).onClose.subscribe(result => {
-      // this.cameras.push({ "title": "image", "source": result.source })
-      // if (result.isPosterImage) {
-      //   this.productForm.value.image = result.fileSource;
-      // }
-      console.log("View Image",result)
+      let imageArray =[];
+      for (let i of result) {
+        if (i['isPosterImage']) {
+          this.productForm.controls.image.setValue(i['source'])
+        } else {
+          imageArray.push(i['source']);
+        }
+      }
+      this.productForm.controls.productimages.setValue(imageArray);
+      console.log(" this.productForm", this.productForm.value)
     });
   }
 
   onSubmit() {
-    // console.log(this.productForm.value.file);
-    // this.cameras.push({"title": "image", "source": this.productForm.value.file})
-    const html = toHTML(this.productForm.value.shortdescription);
-    // console.log("this.html", html);
+    // var shortdescription = this.shortdescriptionArray.push(toHTML(this.productForm.value.shortdescription));
+    // var fulldescription = this.fulldescriptionArray.push(toHTML(this.productForm.value.fulldescription));
+    this.productForm.controls.shortdescription.setValue(toHTML(this.productForm.value.shortdescription))
+    this.productForm.controls.fulldescription.setValue(toHTML(this.productForm.value.fulldescription))
+    console.log(JSON.stringify(this.productForm.value));
   }
 
   ngOnDestroy() {

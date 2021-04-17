@@ -8,12 +8,19 @@ import { EventEmitter } from 'events';
   templateUrl: './image-dialog.component.html',
   styleUrls: ['./image-dialog.component.scss']
 })
-export class AddImageDialogComponent implements OnInit, OnChanges  {
+export class AddImageDialogComponent implements OnInit, OnChanges {
 
   @Input() title: string;
-  @Input() data: any;
+  private imageData: any;
+  @Input()
+  set data(val: any) {
+    this.imageData = val;
+  }
+  get data(): any {
+    return this.imageData;
+  }
   imageSrc: string;
-  imageData: any= [];
+  // imageData: any= [];
   selectPosterImage;
   myForm = new FormGroup({
     file: new FormControl('', [Validators.required]),
@@ -24,13 +31,13 @@ export class AddImageDialogComponent implements OnInit, OnChanges  {
 
   constructor(protected ref: NbDialogRef<AddImageDialogComponent>) { }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("this.data", this.data);
+    // console.log("this.data", this.data);
   }
   ngOnInit(): void {
     // console.log("data", this.data)
-    this.imageData = this.data;
-    for(let i of this.imageData) {
-      if(i['isPosterImage']) {
+    // this.imageData = this.data;
+    for (let i of this.imageData) {
+      if (i['isPosterImage']) {
         this.selectPosterImage = i['isPosterImage'];
       }
     }
@@ -74,5 +81,15 @@ export class AddImageDialogComponent implements OnInit, OnChanges  {
 
   dismiss(value) {
     this.ref.close();
+  }
+
+  setPosterImage(title) {
+    for (let i of this.imageData) {
+      if (i['title'] === title) {
+        i['isPosterImage'] = true;
+      } else {
+        i['isPosterImage'] = false;
+      }
+    }
   }
 }

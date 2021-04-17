@@ -18,5 +18,12 @@ export class ProductsService {
         return data;
       });
   }
+
+  productCategories():Observable<any> {
+    return this.http.get<any>(`${this.globalShared['apiUrl']}/productCategories`)
+      .pipe(data => {
+        return data;
+      });
+  }
   
 }
