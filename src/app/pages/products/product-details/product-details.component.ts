@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { NbComponentSize, NbDialogService, NbMediaBreakpointsService, NbThemeService } from '@nebular/theme';
 
 import { Camera, SecurityCamerasData } from '../../../@core/data/security-cameras';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Editor, Toolbar, toHTML } from 'ngx-editor';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
@@ -19,7 +19,7 @@ import { ProductsService } from '../products.service';
 })
 export class ProductDetailsComponent implements OnInit {
   private destroy$ = new Subject<void>();
-
+  loading = false;
   cameras: any = [];
   selectedCamera: Camera;
   isSingleView = false;
@@ -41,7 +41,7 @@ export class ProductDetailsComponent implements OnInit {
   private alive = true;
   contacts: any[];
   recent: any[];
- 
+  errors:any = [];
   // selectedCar: number = 0;
   html: '';
   imageData: any;
@@ -54,7 +54,7 @@ export class ProductDetailsComponent implements OnInit {
     category: new FormControl(),
     brand: new FormControl(),
     title: new FormControl(),
-    modelNo: new FormControl(),
+    modalno: new FormControl(),
     price: new FormControl(),
     quntity: new FormControl(),
     shortdescription: new FormControl(),
@@ -65,10 +65,10 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(private themeService: NbThemeService,
     private breakpointService: NbMediaBreakpointsService,
-    private securityCamerasService: SecurityCamerasData,
     private userService: UserData,
     private dialogService: NbDialogService,
     private fb: FormBuilder,
+    protected router: Router,
     private productsService: ProductsService,
     private activatedRoute: ActivatedRoute) { }
 
@@ -129,11 +129,12 @@ export class ProductDetailsComponent implements OnInit {
         title: 'Add Image',
       },
     }).onClose.subscribe(result => {
+      // console.log("result", result)
       this.cameras.push({ "title": result.title, "source": result.source, "isPosterImage": result.isPosterImage })
         if (result['isPosterImage']) {
-          this.productForm.controls.image.setValue(result['source'])
+          this.productForm.controls.image.setValue(result['fileId'])
         } else {
-          this.imageArray.push(result['source']);
+          this.imageArray.push(result['fileId']);
         }
       this.productForm.controls.productimages.setValue(this.imageArray);
     });
@@ -149,22 +150,30 @@ export class ProductDetailsComponent implements OnInit {
       let imageArray =[];
       for (let i of result) {
         if (i['isPosterImage']) {
-          this.productForm.controls.image.setValue(i['source'])
+          this.productForm.controls.image.setValue(i['fileId'])
         } else {
-          imageArray.push(i['source']);
+          imageArray.push(i['fileId']);
         }
       }
       this.productForm.controls.productimages.setValue(imageArray);
-      console.log(" this.productForm", this.productForm.value)
+      // console.log(" this.productForm", this.productForm.value)
     });
   }
 
   onSubmit() {
-    // var shortdescription = this.shortdescriptionArray.push(toHTML(this.productForm.value.shortdescription));
-    // var fulldescription = this.fulldescriptionArray.push(toHTML(this.productForm.value.fulldescription));
-    this.productForm.controls.shortdescription.setValue(toHTML(this.productForm.value.shortdescription))
-    this.productForm.controls.fulldescription.setValue(toHTML(this.productForm.value.fulldescription))
-    console.log(JSON.stringify(this.productForm.value));
+    this.loading = true;
+    this.productForm.controls.shortdescription.setValue(toHTML(this.productForm.value.shortdescription));
+    this.productForm.controls.fulldescription.setValue(toHTML(this.productForm.value.fulldescription));
+    console.log((this.productForm.value));
+    this.productsService.productUpload(this.productForm.value).subscribe((result) => {
+      console.log("result", result);
+      // if (result) {
+        this.router.navigate(['/pages/products']);
+        this.loading = false;
+      // } else {
+      //   this.errors = ["Something went wrong"];
+      // }
+    })
   }
 
   ngOnDestroy() {

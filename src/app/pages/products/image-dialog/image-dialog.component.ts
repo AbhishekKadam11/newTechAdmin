@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@ang
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { EventEmitter } from 'events';
+import { ProductsService } from '../products.service';
 
 @Component({
   selector: 'ngx-image-dialog',
@@ -20,16 +21,18 @@ export class AddImageDialogComponent implements OnInit, OnChanges {
     return this.imageData;
   }
   imageSrc: string;
-  // imageData: any= [];
+  file: any;
   selectPosterImage;
   myForm = new FormGroup({
     file: new FormControl('', [Validators.required]),
     source: new FormControl('', [Validators.required]),
     isPosterImage: new FormControl(''),
     title: new FormControl(''),
+    fileId: new FormControl(''),
   });
 
-  constructor(protected ref: NbDialogRef<AddImageDialogComponent>) { }
+  constructor(protected ref: NbDialogRef<AddImageDialogComponent>,
+    private productsService: ProductsService) { }
   ngOnChanges(changes: SimpleChanges): void {
     // console.log("this.data", this.data);
   }
@@ -52,6 +55,7 @@ export class AddImageDialogComponent implements OnInit, OnChanges {
 
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
+      this.file = event.target.files[0];
       // console.log(event.target.files[0]['name'])
       reader.readAsDataURL(file);
 
@@ -67,11 +71,21 @@ export class AddImageDialogComponent implements OnInit, OnChanges {
       };
 
     }
+    // console.log("event.target.files",event.target.files)
   }
 
   submit() {
-    console.log("this.myForm.value", this.myForm.value);
-    this.ref.close(this.myForm.value);
+    // console.log("this.myForm.value", this.myForm.value);
+  
+    this.productsService.uploads(this.file)
+    .subscribe(result=>{
+      this.myForm.patchValue({
+        "fileId": result.fileId
+      })
+      this.ref.close(this.myForm.value);
+    }, error=>{
+      console.log(error);
+    })
   }
 
   setImages() {

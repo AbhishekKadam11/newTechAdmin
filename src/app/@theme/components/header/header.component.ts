@@ -62,7 +62,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //   .pipe(takeUntil(this.destroy$))
     //   .subscribe((users: any) => this.user = users.nick);
     this.subscription = this.authService.currentUser.pipe(takeUntil(this.destroy$)).subscribe(user =>{ 
-      console.log("Header comp ", user);
+   //   console.log("Header comp ", user);
       this.user = user;
     });
     // console.log("this.authService.currentUser ",this.authService.currentUser.subscribe())
