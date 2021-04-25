@@ -11,6 +11,7 @@ import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
 import { AddImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { ProductsService } from '../products.service';
+import { GlobalShared } from '../../../app.global';
 
 @Component({
   selector: 'ngx-product-details',
@@ -23,7 +24,8 @@ export class ProductDetailsComponent implements OnInit {
   cameras: any = [];
   selectedCamera: Camera;
   isSingleView = false;
-  isNew = false;
+  isUpdate = false;
+  productid: string;
   actionSize: NbComponentSize = 'medium';
   editor1: Editor;
   editor2: Editor;
@@ -37,19 +39,19 @@ export class ProductDetailsComponent implements OnInit {
     ["text_color", "background_color"],
     ["align_left", "align_center", "align_right"]
   ];
-
+  productDetails: any = {}
+  reviewDetails: any = {}
   private alive = true;
   contacts: any[];
   recent: any[];
-  errors:any = [];
-  // selectedCar: number = 0;
+  errors: any = [];
   html: '';
   imageData: any;
-  imageArray =[];
-  brandList =[];
-  categoryList =[];
-  shortdescriptionArray =[];
-  fulldescriptionArray =[];
+  imageArray = [];
+  brandList = [];
+  categoryList = [];
+  shortdescriptionArray = [];
+  fulldescriptionArray = [];
   productForm = this.fb.group({
     category: new FormControl(),
     brand: new FormControl(),
@@ -70,47 +72,51 @@ export class ProductDetailsComponent implements OnInit {
     private fb: FormBuilder,
     protected router: Router,
     private productsService: ProductsService,
-    private activatedRoute: ActivatedRoute) { }
+    private globalShared: GlobalShared,
+    private activatedRoute: ActivatedRoute) {
+      
+     }
 
   ngOnInit(): void {
     this.editor1 = new Editor();
     this.editor2 = new Editor();
-    let productid = this.activatedRoute.snapshot.params.id;
-    // console.log("productid", productid);
-    if (productid) {
-      this.isNew = true;
+    this.productid = this.activatedRoute.snapshot.params.id;
+
+    if (this.productid) {
+      this.isUpdate = true;
+      this.productsService.productDetails(this.productid)
+        .subscribe(result => {
+          // console.log("result1",result)
+          this.productDetails = result;
+          this.productForm.patchValue(this.productDetails);
+          for(let i of this.productDetails['productimages']) {
+            this.cameras.push({ "title": i, "source": this.globalShared['imageUrl'] + i, "isPosterImage": false })
+          }
+          if (this.productDetails['image']) {
+            this.cameras.push({ "title": this.productDetails['image'], "source": this.globalShared['imageUrl'] + this.productDetails['image'], "isPosterImage": true })
+          }
+        })
+ 
+      this.productsService.productReview(this.productid)
+        .subscribe(result => {
+          this.reviewDetails = result;
+        })
+
     } else {
-      this.isNew = false;
+      this.isUpdate = false;
     }
 
     this.productsService.productCategories()
-    .subscribe(result=>{
-      this.brandList = result['brandList'];
-      this.categoryList = result['categoryList'];
-    })
-    // this.securityCamerasService.getCamerasData()
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((cameras: Camera[]) => {
-    //     this.cameras = cameras;
-    //     console.log("cameras",cameras)
-    //     this.selectedCamera = this.cameras[0];
-    //   });
+      .subscribe(result => {
+        this.brandList = result['brandList'];
+        this.categoryList = result['categoryList'];
+      })
 
     const breakpoints = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
       .pipe(map(([, breakpoint]) => breakpoint.width))
       .subscribe((width: number) => {
         this.actionSize = width > breakpoints.md ? 'medium' : 'small';
-      });
-
-    forkJoin(
-      this.userService.getContacts(),
-      this.userService.getRecentUsers(),
-    )
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(([contacts, recent]: [Contacts[], RecentUsers[]]) => {
-        this.contacts = contacts;
-        this.recent = recent;
       });
 
   }
@@ -131,11 +137,11 @@ export class ProductDetailsComponent implements OnInit {
     }).onClose.subscribe(result => {
       // console.log("result", result)
       this.cameras.push({ "title": result.title, "source": result.source, "isPosterImage": result.isPosterImage })
-        if (result['isPosterImage']) {
-          this.productForm.controls.image.setValue(result['fileId'])
-        } else {
-          this.imageArray.push(result['fileId']);
-        }
+      if (result['isPosterImage']) {
+        this.productForm.controls.image.setValue(result['fileId'])
+      } else {
+        this.imageArray.push(result['fileId']);
+      }
       this.productForm.controls.productimages.setValue(this.imageArray);
     });
   }
@@ -147,12 +153,12 @@ export class ProductDetailsComponent implements OnInit {
         data: this.cameras,
       },
     }).onClose.subscribe(result => {
-      let imageArray =[];
+      let imageArray = [];
       for (let i of result) {
         if (i['isPosterImage']) {
-          this.productForm.controls.image.setValue(i['fileId'])
+          this.productForm.controls.image.setValue(i['title'])
         } else {
-          imageArray.push(i['fileId']);
+          imageArray.push(i['title']);
         }
       }
       this.productForm.controls.productimages.setValue(imageArray);
@@ -162,18 +168,40 @@ export class ProductDetailsComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.productForm.controls.shortdescription.setValue(toHTML(this.productForm.value.shortdescription));
-    this.productForm.controls.fulldescription.setValue(toHTML(this.productForm.value.fulldescription));
-    console.log((this.productForm.value));
-    this.productsService.productUpload(this.productForm.value).subscribe((result) => {
-      console.log("result", result);
-      // if (result) {
-        this.router.navigate(['/pages/products']);
-        this.loading = false;
-      // } else {
-      //   this.errors = ["Something went wrong"];
-      // }
-    })
+    if(this.isUpdate) {
+      // console.log(this.productForm.value);
+      // this.productForm.controls.shortdescription.setValue(toHTML(this.productForm.value.shortdescription));
+      // this.productForm.controls.fulldescription.setValue(toHTML(this.productForm.value.fulldescription));
+      this.productsService.productUpdate(this.productid,this.productForm.value).subscribe((result) => {
+        if (result) {
+          this.router.navigate(['/pages/products']);
+          this.loading = false;
+        } else {
+          this.errors = ["Something went wrong"];
+        }
+      }, (error) => {
+        console.log("productUpload api " + error);
+      })
+    } else {
+      this.productForm.controls.shortdescription.setValue(toHTML(this.productForm.value.shortdescription));
+      this.productForm.controls.fulldescription.setValue(toHTML(this.productForm.value.fulldescription));
+      // console.log((this.productForm.value));
+      this.productsService.productUpload(this.productForm.value).subscribe((result) => {
+        if (result) {
+          this.router.navigate(['/pages/products']);
+          this.loading = false;
+        } else {
+          this.errors = ["Something went wrong"];
+        }
+      }, (error) => {
+        console.log("productUpload api " + error);
+      })
+    }
+  
+  }
+
+  customerPage(cid) {
+    this.router.navigate(['/pages/customer/details', cid]);
   }
 
   ngOnDestroy() {

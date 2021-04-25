@@ -28,7 +28,7 @@ export class ProductsService {
   }
 
   uploads(file): Observable<any> {
-    const formData = new FormData(); 
+    const formData = new FormData();
     formData.append("file", file);
     return this.http.post<any>(`${this.globalShared['apiUrl']}/uploads`, formData)
       .pipe(data => {
@@ -36,10 +36,31 @@ export class ProductsService {
       });
   }
 
-  productUpload(data): Observable<any> {
+  productUpload(data: any): Observable<any> {
     return this.http.post<any>(`${this.globalShared['apiUrl']}/productUpload`, data)
-      .pipe(map(data => {
+      .pipe(map(result => {
+        return result;
+      }));
+  }
+
+  productDetails(productId: string): Observable<any> {
+    return this.http.get<any>(`${this.globalShared['apiUrl']}/productDetails?productId=${productId}`)
+      .pipe(data => {
         return data;
+      });
+  }
+
+  productReview(productId: string): Observable<any> {
+    return this.http.get<any>(`${this.globalShared['apiUrl']}/productReview?productId=${productId}`)
+      .pipe(data => {
+        return data;
+      });
+  }
+
+  productUpdate(productId: string, data: any): Observable<any> {
+    return this.http.put<any>(`${this.globalShared['apiUrl']}/productUpdate?productId=${productId}`, data)
+      .pipe(map(result => {
+        return result;
       }));
   }
 

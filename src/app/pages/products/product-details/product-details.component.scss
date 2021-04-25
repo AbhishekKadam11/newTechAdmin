@@ -71,7 +71,7 @@
     background-position: center;
     background-size: cover;
     position: relative;
-
+   
     &::before {
       background-color: rgba(255, 255, 255, 0.1);
       content: '';
@@ -186,4 +186,24 @@
     }
   }
 }
+@each $status in nb-get-statuses() {
+  .bg-status-#{$status} {
+    background: nb-theme(text-#{$status}-color);
+  }
+}
+
+}
+.contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:first-child {
+    border-top: none;
+  }
+}
+
+.text-right {
+  justify-content: right;
+  align-items: revert;
 }

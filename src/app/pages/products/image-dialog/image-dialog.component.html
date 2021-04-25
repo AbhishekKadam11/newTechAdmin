@@ -40,14 +40,10 @@
                   </td>
                   <td>{{item.title}}</td>
                   <td>
-                    <!-- <nb-radio name="isPosterImage" id="isPosterImage" [checked]="item.isPosterImage ? item.isPosterImage : false" >
-                    </nb-radio> -->
                     <nb-radio-group [(value)]="selectPosterImage">
-                      <nb-radio (click)="setPosterImage(item.title)"
-                      [value]="item.isPosterImage">
-                     
-                    </nb-radio>
-                      </nb-radio-group>
+                      <nb-radio (click)="setPosterImage(item.title)" [value]="item.isPosterImage">
+                      </nb-radio>
+                    </nb-radio-group>
                   </td>
               </tr>
           </tbody>
