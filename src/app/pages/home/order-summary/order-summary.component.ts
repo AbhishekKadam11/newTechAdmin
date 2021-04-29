@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -8,16 +8,8 @@ import * as d3 from 'd3';
 })
 export class OrderSummaryComponent implements OnInit {
 
-  @Input("data") private data: SimpleDataModel[] = [
-    { name: "a", value: "9", color: "#665faac" },
-    { name: "b", value: "20", color: "#dd8050c4" },
-    { name: "c", value: "30", color: "#63adfeb3" },
-    { name: "d", value: "8", color: "#24b044d9" },
-    { name: "e", value: "12", color: "#ff516ed9" },
-    { name: "f", value: "3", color: "#ffcf59ed" },
-    { name: "g", value: "7", color: "#17a2b8" },
-    { name: "h", value: "14", color: "#976a6af2" }
-  ];
+  @Input("data") private data: SimpleDataModel[];
+  
   private margin = { top: 10, right: 30, bottom: 30, left: 40 };
   private width = 450;
   private height = 300;
@@ -27,10 +19,21 @@ export class OrderSummaryComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.createSvg();
-    this.createColors(this.data);
-    this.drawChart();
+    // this.createSvg();
+    // this.createColors(this.data);
+    // this.drawChart();
+    // console.log(this.data)
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // only run when property "data" changed
+    if (changes['data'] && this.data.length > 0) {
+       this.createSvg();
+       this.createColors(this.data);
+       this.drawChart();
+      //  console.log(" this.loading", this.loading)
+    }
+}
 
   private createSvg(): void {
     this.svg = d3
@@ -63,6 +66,7 @@ export class OrderSummaryComponent implements OnInit {
         index++;
       }
     });
+
     this.colors = d3
       .scaleOrdinal()
       .domain(data.map(d => d.value.toString()))
@@ -101,7 +105,7 @@ export class OrderSummaryComponent implements OnInit {
       .enter()
       .append("path")
       .attr("d", arc)
-      .attr("fill", d => this.colors(d.data.value))
+      .attr("fill", d => this.colors(d.data.color))
       .attr("stroke", "white")
       .style("stroke-width", "2px")
       .style("opacity", 0.7);

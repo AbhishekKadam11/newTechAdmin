@@ -1,0 +1,44 @@
+<nb-card>
+    <nb-card-header>{{ title }}</nb-card-header>
+    <nb-card-body>
+        <div class="container">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Brand</th>
+                        <th>Category</th>
+                        <th>Modal No</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of data">
+                        <td>
+                            <img [src]="imgUrl + item.image" style="height: 200px; width:200px">
+                        </td>
+                        <td>{{item.title}}</td>
+                        <td>{{item.brand}}</td>
+                        <td>{{item.category}}</td>
+                        <td>{{item.modalno}}</td>
+                        <td>{{item.price}}</td>
+                        <!-- <td>
+                            <nb-radio-group [(value)]="selectPosterImage">
+                                <nb-radio (click)="setPosterImage(item.title)" [value]="item.isPosterImage">
+                                </nb-radio>
+                            </nb-radio-group>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <div class="row">
+            <div class="col-xxxl-6 col-xxl-12 col-md-12">
+                <button type="submit" nbButton (click)="close()" status="primary">Ok</button>
+            </div>
+        </div>
+    </nb-card-footer>
+</nb-card>

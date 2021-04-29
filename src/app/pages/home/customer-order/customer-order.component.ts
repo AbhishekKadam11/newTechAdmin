@@ -2,6 +2,7 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
 import { takeWhile } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-customer-order',
@@ -16,17 +17,17 @@ export class CustomerOrderComponent implements OnInit {
   contacts: any[];
   recent: any[];
 
-  constructor(private userService: UserData) {
+  constructor(private userService: UserData, protected router: Router) {
   // console.log(" this.loading", this.loading)
-    forkJoin(
-      this.userService.getContacts(),
-      this.userService.getRecentUsers(),
-    )
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(([contacts, recent]: [Contacts[], RecentUsers[]]) => {
-        this.contacts = contacts;
-        this.recent = recent;
-      });
+    // forkJoin(
+    //   this.userService.getContacts(),
+    //   this.userService.getRecentUsers(),
+    // )
+    //   .pipe(takeWhile(() => this.alive))
+    //   .subscribe(([contacts, recent]: [Contacts[], RecentUsers[]]) => {
+    //     this.contacts = contacts;
+    //     this.recent = recent;
+    //   });
      
   }
 
@@ -40,6 +41,10 @@ export class CustomerOrderComponent implements OnInit {
 }
 
   ngOnInit(): void {
+  }
+
+  customerDetails(cid: string){
+    this.router.navigate(['/pages/customer/details/', cid]);
   }
 
   ngOnDestroy() {

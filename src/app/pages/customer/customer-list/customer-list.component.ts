@@ -18,7 +18,7 @@ export class CustomerListComponent implements OnInit {
     private customerService: CustomerService,
     protected router: Router) {
 
-    this.customerService.productList().subscribe(result => {
+    this.customerService.customerList().subscribe(result => {
       this.customerList = result;
     })
   }

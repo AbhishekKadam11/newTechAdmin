@@ -5,9 +5,9 @@
     <nb-card-body [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
         <nb-list>
             <nb-list-item class="contact" *ngFor="let c of data">
-                <nb-user [picture]="c.customerDetails?.picturePic" [name]="c.customerDetails.email" [title]="c.type" size="large">
+                <nb-user [picture]="c.customerDetails?.picturePic" [name]="c.customerDetails.email" [title]="c.type" size="large"> 
                 </nb-user>
-                <button nbButton shape="round">
+                <button nbButton shape="round" (click)="customerDetails(c.customerId)"> 
                     <nb-icon icon="corner-down-right-outline" pack="eva"></nb-icon>
                 </button>
             </nb-list-item>

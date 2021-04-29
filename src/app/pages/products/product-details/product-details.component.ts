@@ -74,8 +74,8 @@ export class ProductDetailsComponent implements OnInit {
     private productsService: ProductsService,
     private globalShared: GlobalShared,
     private activatedRoute: ActivatedRoute) {
-      
-     }
+
+  }
 
   ngOnInit(): void {
     this.editor1 = new Editor();
@@ -89,14 +89,14 @@ export class ProductDetailsComponent implements OnInit {
           // console.log("result1",result)
           this.productDetails = result;
           this.productForm.patchValue(this.productDetails);
-          for(let i of this.productDetails['productimages']) {
+          for (let i of this.productDetails['productimages']) {
             this.cameras.push({ "title": i, "source": this.globalShared['imageUrl'] + i, "isPosterImage": false })
           }
           if (this.productDetails['image']) {
             this.cameras.push({ "title": this.productDetails['image'], "source": this.globalShared['imageUrl'] + this.productDetails['image'], "isPosterImage": true })
           }
         })
- 
+
       this.productsService.productReview(this.productid)
         .subscribe(result => {
           this.reviewDetails = result;
@@ -168,11 +168,11 @@ export class ProductDetailsComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    if(this.isUpdate) {
+    if (this.isUpdate) {
       // console.log(this.productForm.value);
       // this.productForm.controls.shortdescription.setValue(toHTML(this.productForm.value.shortdescription));
       // this.productForm.controls.fulldescription.setValue(toHTML(this.productForm.value.fulldescription));
-      this.productsService.productUpdate(this.productid,this.productForm.value).subscribe((result) => {
+      this.productsService.productUpdate(this.productid, this.productForm.value).subscribe((result) => {
         if (result) {
           this.router.navigate(['/pages/products']);
           this.loading = false;
@@ -197,7 +197,7 @@ export class ProductDetailsComponent implements OnInit {
         console.log("productUpload api " + error);
       })
     }
-  
+
   }
 
   customerPage(cid) {

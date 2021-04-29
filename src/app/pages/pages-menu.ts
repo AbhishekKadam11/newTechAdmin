@@ -18,6 +18,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/customer',
   },
   {
+    title: 'Orders',
+    icon: 'shopping-cart-outline',
+    link: '/pages/orders',
+  },
+  {
     title: 'Upload',
     icon: 'upload-outline',
     link: '/pages/products/upload',

@@ -12,7 +12,15 @@ export class HomeComponent implements OnInit {
   dashboardCountDetails: any = {};
   orderStatisticDetails: any = [];
   orderByCustomerDetails: any = [];
-
+  customerOrderCount: any = [];
+  defaultColors = [
+    "#665faac",
+    "#dd8050c4",
+    "#63adfeb3",
+    "#24b044d9",
+    "#ff516ed9",
+    "#ffcf59ed"
+  ];
   public data = [
     {
       "value": 20,
@@ -164,11 +172,21 @@ export class HomeComponent implements OnInit {
       this.dashboardCountDetails = results[0];
       this.orderStatisticDetails = results[1];
       this.orderByCustomerDetails = results[2];
-      console.log( this.orderByCustomerDetails);
+      // console.log( this.orderByCustomerDetails);
     },error => {
       console.log(error);
     });
 
+    this.homeService.orderCountByCustomer().subscribe(result => {
+      let data = [];
+      let count = 0;
+      for (let i of result) {
+        data.push({ "name": i["_id"], "value": i["myCount"], "color": this.defaultColors[count] })
+        count++;
+      }
+      this.customerOrderCount = data;
+  
+    })
 
   }
 

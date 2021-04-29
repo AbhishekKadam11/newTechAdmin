@@ -33,4 +33,11 @@ export class HomeService {
       });
   }
 
+  orderCountByCustomer():Observable<any>  {
+    return this.http.get<any>(`${this.globalShared['apiUrl']}/orderCountByCustomer`)
+      .pipe(data => {
+        return data;
+      });
+  }
+
 }

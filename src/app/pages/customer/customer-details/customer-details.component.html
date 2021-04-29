@@ -32,17 +32,17 @@
                         <label for="profileName" class="label col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-3">
                             <input type="text" nbInput fullWidth id="profileName" placeholder="Profile name"
-                                formControlName="profileName" #profileName>
+                                formControlName="profilename" #profileName>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="gender" class="label col-sm-2 col-form-label">Gender</label>
                         <div class="col-sm-3">
                             <nb-radio-group [(value)]="gender" formControlName="gender">
-                                <nb-radio id="gender" [value]="'male'">
+                                <nb-radio id="gender" [value]="'Male'">
                                     Male
                                 </nb-radio>
-                                <nb-radio id="gender" [value]="'female'">
+                                <nb-radio id="gender" [value]="'Female'">
                                     Female
                                 </nb-radio>
                             </nb-radio-group>
@@ -75,7 +75,7 @@
 
             <div class="card-profile-image">
                 <a href="javascript:void(0)">
-                    <img src="../../../../assets/images/eva.png" class="rounded-circle">
+                    <img src="../../../../assets/images/default-avatar.jpg" class="rounded-circle">
                 </a>
             </div>
         </div>
