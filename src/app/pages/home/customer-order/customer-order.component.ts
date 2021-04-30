@@ -16,6 +16,7 @@ export class CustomerOrderComponent implements OnInit {
   private alive = true;
   contacts: any[];
   recent: any[];
+  error: string;
 
   constructor(private userService: UserData, protected router: Router) {
   // console.log(" this.loading", this.loading)
@@ -35,9 +36,12 @@ export class CustomerOrderComponent implements OnInit {
     // only run when property "data" changed
     if (changes['data'] && this.data.length > 0) {
       //  console.log("this.data",this.data)
-       this.loading = false;
+      
       //  console.log(" this.loading", this.loading)
+    } else{
+      this.error = "No new order found for this week"
     }
+    this.loading = false;
 }
 
   ngOnInit(): void {

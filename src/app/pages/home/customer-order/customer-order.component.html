@@ -5,12 +5,23 @@
     <nb-card-body [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="giant">
         <nb-list>
             <nb-list-item class="contact" *ngFor="let c of data">
-                <nb-user [picture]="c.customerDetails?.picturePic" [name]="c.customerDetails.email" [title]="c.type" size="large"> 
+                <nb-user [picture]="c.customerDetails?.picturePic" [name]="c.customerDetails.email" [title]="c.type"
+                    size="large">
                 </nb-user>
-                <button nbButton shape="round" (click)="customerDetails(c.customerId)"> 
+                <button nbButton shape="round" (click)="customerDetails(c.customerId)">
                     <nb-icon icon="corner-down-right-outline" pack="eva"></nb-icon>
                 </button>
             </nb-list-item>
         </nb-list>
+        <nb-alert class="col-md-12" *ngIf="error" status="info">
+            <div class="row">
+                <span class="d-inline-block float-left" style="margin-right: 10px; margin-left: 10px;">
+                    <nb-icon icon="alert-circle-outline"> </nb-icon>
+                </span>
+                <span class="d-inline-block float-right">
+                    {{error}}
+                </span>
+            </div>
+        </nb-alert>
     </nb-card-body>
 </nb-card>

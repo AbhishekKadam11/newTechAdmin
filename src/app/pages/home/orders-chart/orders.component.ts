@@ -20,14 +20,17 @@ export class OrdersComponent implements OnInit {
   public yAxis;
   public lineGroup;
 
-  constructor(public chartElem: ElementRef) { }
+  constructor(public chartElem: ElementRef) {
+
+   }
 
   ngOnInit(): void {
+ 
   }
 
   public ngOnChanges(changes): void {
     if (changes.hasOwnProperty('data') && this.data) {
-      // console.log(this.data)
+      // console.log("OrdersComponent", this.data)
       this.initializeChart();
       this.drawChart();
 
@@ -35,15 +38,17 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-  private initializeChart(): void {
+  public initializeChart(): void {
     this.svg = d3
-      .select(this.chartElem.nativeElement)
-      .select('.linechart')
+      // .select(this.chartElem.nativeElement)
+      .select("figure#linechart")
+      // .select('.linechart')
       .append('svg')
+      
       .attr('height', this.height);
     this.svgInner = this.svg
       .append('g')
-      .style('transform', 'translate(' + this.margin + 'px, ' + this.margin + 'px)');
+      // .style('transform', 'translate(' + this.margin + 'px, ' + this.margin + 'px)');
 
     this.yScale = d3
       .scaleLinear()
@@ -72,37 +77,35 @@ export class OrdersComponent implements OnInit {
 
   }
 
-  private drawChart(): void {
+  public drawChart(): void {
     this.width = this.chartElem.nativeElement.getBoundingClientRect().width;
     this.svg.attr('width', this.width);
 
     this.xScale.range([this.margin, this.width - 2 * this.margin]);
 
-    const xAxis = d3
+    var xAxis = d3
       .axisBottom(this.xScale)
       .ticks(10)
       .tickFormat(d3.timeFormat('%m / %Y'));
 
     this.xAxis.call(xAxis);
 
-    const yAxis = d3
+    var yAxis = d3
       .axisLeft(this.yScale);
 
     this.yAxis.call(yAxis);
 
-    const line = d3
+    var line = d3
       .area()
       .x(d => d[0])
       .y0(this.height -100)
       .y1(d => d[1])
       .curve(d3.curveMonotoneX);
 
-    const points: [number, number][] = this.data.map(d => [
+    var points: [number, number][] = this.data.map(d => [
       this.xScale(new Date(d.date)),
       this.yScale(d.value),
     ]);
-
-    
     this.lineGroup.attr('d', line(points));
   }
 
