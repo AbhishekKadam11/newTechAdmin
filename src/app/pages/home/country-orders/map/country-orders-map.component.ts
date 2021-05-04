@@ -17,7 +17,7 @@ import { takeWhile } from 'rxjs/operators';
 })
 export class CountryOrdersMapComponent implements OnDestroy {
 
-  @Input() countryId: string;
+  @Input() stateId: string;
 
   @Output() select: EventEmitter<any> = new EventEmitter();
 
@@ -27,16 +27,22 @@ export class CountryOrdersMapComponent implements OnDestroy {
   selectedCountry;
 
   options = {
-    zoom: 2,
-    minZoom: 2,
-    maxZoom: 6,
+    // zoom: 2,
+    // minZoom: 2,
+    // maxZoom: 6,
+    // zoomControl: false,
+    // center: L.latLng({lat: 38.991709, lng: -76.886109}),
+    // maxBounds: new L.LatLngBounds(
+    //   new L.LatLng(-89.98155760646617, -180),
+    //   new L.LatLng(89.99346179538875, 180),
+    // ),
+    // maxBoundsViscosity: 1.0,
+    layers: [
+      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 })
+    ],
+    zoom: 6,
     zoomControl: false,
-    center: L.latLng({lat: 38.991709, lng: -76.886109}),
-    maxBounds: new L.LatLngBounds(
-      new L.LatLng(-89.98155760646617, -180),
-      new L.LatLng(89.99346179538875, 180),
-    ),
-    maxBoundsViscosity: 1.0,
+    center: L.latLng(19.076090, 72.877426)
   };
 
   constructor(private ecMapService: CountryOrdersMapService,
@@ -50,7 +56,7 @@ export class CountryOrdersMapComponent implements OnDestroy {
       .subscribe(([cords, config]: [any, any]) => {
         this.currentTheme = config.variables.countryOrders;
         this.layers = [this.createGeoJsonLayer(cords)];
-        this.selectFeature(this.findFeatureLayerByCountryId(this.countryId));
+        this.selectFeature(this.findFeatureLayerBystateId(this.stateId));
       });
   }
 
@@ -68,11 +74,11 @@ export class CountryOrdersMapComponent implements OnDestroy {
       cords as any,
       {
         style: () => ({
-          weight: this.currentTheme.countryBorderWidth,
-          fillColor: this.currentTheme.countryFillColor,
-          fillOpacity: 1,
+          // weight: this.currentTheme.countryBorderWidth,
+          // fillColor: this.currentTheme.countryFillColor,
+          // fillOpacity: 10,
           color: this.currentTheme.countryBorderColor,
-          opacity: 1,
+          opacity: 10,
         }),
         onEachFeature: (f, l) => {
           this.onEachFeature(f, l);
@@ -120,18 +126,20 @@ export class CountryOrdersMapComponent implements OnDestroy {
   }
 
   private selectFeature(featureLayer) {
+    // console.log("featureLayer",featureLayer.feature)
     if (featureLayer !== this.selectedCountry) {
       this.resetHighlight(this.selectedCountry);
       this.highlightFeature(featureLayer);
       this.selectedCountry = featureLayer;
-      this.select.emit(featureLayer.feature.properties.name);
+      this.select.emit(featureLayer.feature.properties.st_nm);
     }
   }
 
-  private findFeatureLayerByCountryId(id) {
+  private findFeatureLayerBystateId(id) {
+    // console.log("id",id)
     const layers = this.layers[0].getLayers();
     const featureLayer = layers.find(item => {
-      return item.feature.id === id;
+      return item.feature.properties.st_nm === id;
     });
 
     return featureLayer ? featureLayer : null;

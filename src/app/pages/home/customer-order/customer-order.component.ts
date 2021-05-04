@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
+// import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
 import { takeWhile } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
@@ -18,7 +18,7 @@ export class CustomerOrderComponent implements OnInit {
   recent: any[];
   error: string;
 
-  constructor(private userService: UserData, protected router: Router) {
+  constructor( protected router: Router) {
   // console.log(" this.loading", this.loading)
     // forkJoin(
     //   this.userService.getContacts(),

@@ -20,7 +20,7 @@ import {
   FooterComponent,
   HeaderComponent,
   SearchInputComponent,
-  TinyMCEComponent,
+  // TinyMCEComponent,
 } from './components';
 import {
   CapitalizePipe,
@@ -57,7 +57,7 @@ const COMPONENTS = [
   HeaderComponent,
   FooterComponent,
   SearchInputComponent,
-  TinyMCEComponent,
+  // TinyMCEComponent,
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,

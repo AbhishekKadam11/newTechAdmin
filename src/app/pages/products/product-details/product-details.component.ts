@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Editor, Toolbar, toHTML } from 'ngx-editor';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
-import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
+// import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
 import { AddImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { ProductsService } from '../products.service';
 import { GlobalShared } from '../../../app.global';
@@ -67,7 +67,6 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(private themeService: NbThemeService,
     private breakpointService: NbMediaBreakpointsService,
-    private userService: UserData,
     private dialogService: NbDialogService,
     private fb: FormBuilder,
     protected router: Router,

@@ -1,4 +1,5 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { NbColorHelper, NbThemeService } from '@nebular/theme';
 import * as d3 from 'd3';
 
 @Component({
@@ -6,7 +7,7 @@ import * as d3 from 'd3';
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
-export class OrdersComponent implements OnInit {
+export class OrdersComponent implements OnInit, AfterViewInit, OnDestroy {
   
   @Input() public data: { value: number, date: string }[];
   private width = 700;
@@ -19,10 +20,19 @@ export class OrdersComponent implements OnInit {
   public xAxis;
   public yAxis;
   public lineGroup;
+  themeSubscription: any;
+  private colors: any;
 
-  constructor(public chartElem: ElementRef) {
+  constructor(public chartElem: ElementRef,private theme: NbThemeService) {
 
    }
+
+  ngAfterViewInit(): void {
+    this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
+
+      this.colors = config.variables;
+    });
+  }
 
   ngOnInit(): void {
  
@@ -71,7 +81,7 @@ export class OrdersComponent implements OnInit {
       .append('g')
       .append('path')
       .attr('id', 'area')
-      .attr("class", "line-color").attr("fill","url(#")
+      .attr("class", "line-color").attr("fill",NbColorHelper.hexToRgbA(this.colors.primary, 0.3))
       .attr('stroke', 'blue')
       // .style('stroke-width', '2px')
 
@@ -109,4 +119,7 @@ export class OrdersComponent implements OnInit {
     this.lineGroup.attr('d', line(points));
   }
 
+  ngOnDestroy(): void {
+    this.themeSubscription.unsubscribe();
+  }
 }

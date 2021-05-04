@@ -66,10 +66,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.homeService.orderStatistics().subscribe(result => {
       let data = [];
       for (let i of result) {
-        data.push({"value": i["myCount"], "date": i["_id"] })
+        data.push({"value": i["myCount"], "date": i["requestdate"] })
       }
       this.data = data;
     })
+    
 
   }
 

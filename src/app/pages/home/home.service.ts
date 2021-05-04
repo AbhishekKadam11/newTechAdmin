@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { GlobalShared } from '../../app.global';
 
@@ -40,4 +41,17 @@ export class HomeService {
       });
   }
 
+  stateWiseCount(state: string):Observable<any>  {
+    return this.http.get<any>(`${this.globalShared['apiUrl']}/stateWiseCount?state=${state}`)
+      .pipe(data => {
+        return data;
+      });
+  }
+
+  // private stateNameSource = new BehaviorSubject("Maharashtra");
+  // stataName:any = this.stateNameSource.asObservable();
+
+  // setStateName(state: string) {
+  //    this.stateNameSource.next(state);
+  // }
 }

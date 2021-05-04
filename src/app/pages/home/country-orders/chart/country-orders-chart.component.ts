@@ -2,6 +2,7 @@ import { AfterViewInit, Component, Input, OnChanges, OnDestroy, SimpleChanges } 
 import { NbThemeService } from '@nebular/theme';
 import { takeWhile } from 'rxjs/operators';
 import { LayoutService } from '../../../../@core/utils/layout.service';
+import { HomeService } from '../../home.service';
 
 
 @Component({
@@ -9,8 +10,8 @@ import { LayoutService } from '../../../../@core/utils/layout.service';
   styleUrls: ['./country-orders-chart.component.scss'],
   template: `
     <div class="header">
-      <span class="caption">Selected Country/Region</span>
-      <h2 class="h4">{{ countryName }}</h2>
+      <span class="caption">Selected State/Region</span>
+      <h2 class="h4">{{ stateName }}</h2>
     </div>
     <div echarts
          [options]="option"
@@ -21,10 +22,10 @@ import { LayoutService } from '../../../../@core/utils/layout.service';
 })
 export class CountryOrdersChartComponent implements AfterViewInit, OnDestroy, OnChanges {
 
-  @Input() countryName: string;
+  @Input() stateName: string;
   @Input() data: number[];
   @Input() maxValue: number;
-  @Input() labels: string[];
+  @Input() labels: any;
 
   private alive = true;
 
@@ -32,16 +33,24 @@ export class CountryOrdersChartComponent implements AfterViewInit, OnDestroy, On
   echartsInstance;
 
   constructor(private theme: NbThemeService,
+              private homeService: HomeService,
               private layoutService: LayoutService) {
     this.layoutService.onSafeChangeLayoutSize()
       .pipe(
         takeWhile(() => this.alive),
       )
       .subscribe(() => this.resizeChart());
+
+      // this.homeService.stataName.subscribe(result=>{
+      //   console.log("result",result)
+      //   this.labels = result;
+      // })
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.data && !changes.data.isFirstChange()) {
+      // console.log("this.data",this.data)
       this.echartsInstance.setOption({
         series: [
           {
@@ -54,7 +63,15 @@ export class CountryOrdersChartComponent implements AfterViewInit, OnDestroy, On
             data: this.data,
           },
         ],
-      });
+        yAxis: {
+          data: this.labels,
+
+          axisTick: {
+            show: false,
+          },
+        },
+      },
+      );
     }
   }
 

@@ -14,10 +14,10 @@ import { HomeModule } from './home/home.module';
     PagesRoutingModule,
     ThemeModule,
     NbMenuModule,
-    DashboardModule,
+    // DashboardModule,
     HomeModule,
-    ECommerceModule,
-    MiscellaneousModule,
+    // ECommerceModule,
+    // MiscellaneousModule,
   ],
   declarations: [
     PagesComponent,

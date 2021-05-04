@@ -20,10 +20,9 @@ export class NgxLoginComponent {
     @Inject(NB_AUTH_OPTIONS) protected options = {},
     protected cd: ChangeDetectorRef,
     protected router: Router, private authService: AuthService) {
-    // super(service, options, cd, router);
-       // redirect to home if already logged in
+    // redirect to home if already logged in
     if (this.authService.currentUserValue) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/pages/home']);
     }
   }
 
