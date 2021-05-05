@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpoint, NbMediaBreakpointsService, NbThemeService } from '@nebular/theme';
 import { takeWhile } from 'rxjs/operators';
 import { CountryOrderData } from '../../../@core/data/country-order';
@@ -36,6 +36,7 @@ export class CountryOrdersComponent implements OnInit, OnDestroy {
   constructor(private themeService: NbThemeService,
               private breakpointService: NbMediaBreakpointsService,
               private homeService: HomeService,
+              private cd: ChangeDetectorRef,
               private countryOrderService: CountryOrderData) {
     this.breakpoints = this.breakpointService.getBreakpointsMap();
     
@@ -80,9 +81,8 @@ export class CountryOrdersComponent implements OnInit, OnDestroy {
     let data = []
     let label = []
     this.homeService.stateWiseCount(stateName)
-      // .pipe(takeWhile(() => this.alive))
+      .pipe(takeWhile(() => this.alive))
       .subscribe((stateData) => {
-       
         // this.stateData = stateData;
         if(stateData.length > 0) {
           for(let i = 0; i< stateData.length; i++) {
@@ -91,9 +91,16 @@ export class CountryOrdersComponent implements OnInit, OnDestroy {
           }
           this.stateData = data;
           this.stateCategories = label;
+        } else {
+          this.stateData = [];
+          this.stateCategories = [];
         }
+        this.cd.detectChanges();
+      }, (error)=> {
+        this.stateData = [];
+        this.stateCategories = [];
+        this.cd.detectChanges();
       });
-
   }
 
   ngOnDestroy() {

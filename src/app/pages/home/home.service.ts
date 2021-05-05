@@ -48,10 +48,10 @@ export class HomeService {
       });
   }
 
-  // private stateNameSource = new BehaviorSubject("Maharashtra");
-  // stataName:any = this.stateNameSource.asObservable();
+  private stateNameSource = new BehaviorSubject("Maharashtra");
+  stataName:any = this.stateNameSource.asObservable();
 
-  // setStateName(state: string) {
-  //    this.stateNameSource.next(state);
-  // }
+  setStateName(state: any) {
+     this.stateNameSource.next(state);
+  }
 }

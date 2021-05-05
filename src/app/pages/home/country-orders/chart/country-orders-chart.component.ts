@@ -40,17 +40,11 @@ export class CountryOrdersChartComponent implements AfterViewInit, OnDestroy, On
         takeWhile(() => this.alive),
       )
       .subscribe(() => this.resizeChart());
-
-      // this.homeService.stataName.subscribe(result=>{
-      //   console.log("result",result)
-      //   this.labels = result;
-      // })
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.data && !changes.data.isFirstChange()) {
-      // console.log("this.data",this.data)
+      console.log("this.data",this.data)
       this.echartsInstance.setOption({
         series: [
           {
