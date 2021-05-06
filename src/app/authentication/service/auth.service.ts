@@ -38,5 +38,9 @@ export class AuthService {
       localStorage.removeItem('currentUser');
       this.currentUserSubject.next(null);
   }
-  
+
+  get isAdmin() {
+    //   console.log("this.currentUserValue.role",this.currentUserValue.role)
+    return this.currentUserValue && this.currentUserValue.role === "Admin";
+  }
 }

@@ -7,99 +7,48 @@ import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from '../authentication/service/auth-guard.service';
+import { ProductsComponent } from './products/products.component';
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
-  // canActivate: [AuthGuardService],
+  canActivateChild: [AuthGuardService],
   children: [
     {
       path: 'home',
       component: HomeComponent,
-      canActivate: [AuthGuardService]
-    },
-    {
-      path: 'dashboard',
-      component: ECommerceComponent,
-    },
-    {
-      path: 'iot-dashboard',
-      component: DashboardComponent,
+      // canActivate: [AuthGuardService],
+      // data: { roles: ["Admin", "User"] }
     },
     {
       path: 'products',
       loadChildren: () => import('./products/products.module')
         .then(m => m.ProductModule),
-        canActivate: [AuthGuardService]
+        // canActivate: [AuthGuardService],
+        // data: { roles: ["Admin", "User"] }
     },
     {
       path: 'customer',
       loadChildren: () => import('./customer/customer.module')
         .then(m => m.CustomerModule),
-        canActivate: [AuthGuardService]
+        // canActivate: [AuthGuardService],
+        // data: { roles: ["Admin", "User"] }
     },
     {
       path: 'products/upload',
       loadChildren: () => import('./products/products.module')
         .then(m => m.ProductModule),
-        canActivate: [AuthGuardService]
+        canActivate: [AuthGuardService],
+        // component:ProductsComponent,
+        data: { roles: ["Admin"] }
     },
     {
       path: 'orders',
       loadChildren: () => import('./orders/orders.module')
         .then(m => m.OrdersModule),
-        canActivate: [AuthGuardService]
+        // canActivate: [AuthGuardService],
+        data: { roles: ["Admin", "User"] }
     },
-    // {
-    //   path: 'layout',
-    //   loadChildren: () => import('./layout/layout.module')
-    //     .then(m => m.LayoutModule),
-    // },
-    // {
-    //   path: 'forms',
-    //   loadChildren: () => import('./forms/forms.module')
-    //     .then(m => m.FormsModule),
-    // },
-    // {
-    //   path: 'ui-features',
-    //   loadChildren: () => import('./ui-features/ui-features.module')
-    //     .then(m => m.UiFeaturesModule),
-    // },
-    // {
-    //   path: 'modal-overlays',
-    //   loadChildren: () => import('./modal-overlays/modal-overlays.module')
-    //     .then(m => m.ModalOverlaysModule),
-    // },
-    // {
-    //   path: 'extra-components',
-    //   loadChildren: () => import('./extra-components/extra-components.module')
-    //     .then(m => m.ExtraComponentsModule),
-    // },
-    // {
-    //   path: 'maps',
-    //   loadChildren: () => import('./maps/maps.module')
-    //     .then(m => m.MapsModule),
-    // },
-    // {
-    //   path: 'charts',
-    //   loadChildren: () => import('./charts/charts.module')
-    //     .then(m => m.ChartsModule),
-    // },
-    // {
-    //   path: 'editors',
-    //   loadChildren: () => import('./editors/editors.module')
-    //     .then(m => m.EditorsModule),
-    // },
-    // {
-    //   path: 'tables',
-    //   loadChildren: () => import('./tables/tables.module')
-    //     .then(m => m.TablesModule),
-    // },
-    // {
-    //   path: 'miscellaneous',
-    //   loadChildren: () => import('./miscellaneous/miscellaneous.module')
-    //     .then(m => m.MiscellaneousModule),
-    // },
     {
       path: '',
       redirectTo: 'home',

@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
+import { AuthService } from '../../authentication/service/auth.service';
+import { User } from '../../models/user';
 import { HomeService } from './home.service';
 
 @Component({
@@ -22,29 +24,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
     "#ffcf59ed"
   ];
   public data; 
+  user: User;
 
-  constructor(private homeService: HomeService) {
-   
-   }
+  constructor(private homeService: HomeService, private authService: AuthService) {
+  //  this.authService.currentUser.subscribe(x => this.user = x);
+  }
   ngAfterViewInit(): void {
    
   }
 
   ngOnInit(): void {
-    // forkJoin([this.homeService.dashboardCount(),
-    // this.homeService.orderByCustomer()]).subscribe(results => {
-    //   this.dashboardCountDetails = results[0];
-    //   this.orderByCustomerDetails = results[1];
-
-    //   console.log( this.dashboardCountDetails);
-    // },error => {
-    //   console.log(error);
-    // });
-
     this.homeService.dashboardCount().subscribe(result => {
-    
       this.dashboardCountDetails = result;
-  
     })
 
     this.homeService.orderByCustomer().subscribe(result => {
@@ -73,6 +64,4 @@ export class HomeComponent implements OnInit, AfterViewInit {
     
 
   }
-
-
 }
