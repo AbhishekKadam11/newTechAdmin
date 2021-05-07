@@ -6,14 +6,14 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements CanActivate, CanActivateChild  {
+export class AuthGuardService implements CanActivate, CanActivateChild   {
   constructor(
     private router: Router,
     private authenticationService: AuthService
   ) { }
-  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    return this.canActivate(childRoute, state);
-  }
+ canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+   return this.canActivate(childRoute, state);
+ }
 
   canActivate(route, state) {
     const currentUser = this.authenticationService.currentUserValue;
@@ -33,4 +33,5 @@ export class AuthGuardService implements CanActivate, CanActivateChild  {
     this.router.navigate(['/auth/login']);
     return false;
   }
+
 }
