@@ -54,6 +54,19 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label for="state" class="label col-sm-2 col-form-label">State</label>
+                        <div class="col-sm-3">
+                            <ng-select [items]="stateList" bindLabel="state" formControlName="state" #state bindValue="state" 
+                                (change)="getCityList()">
+                            </ng-select>
+                        </div>
+                        <label for="city" class="label col-sm-2 col-form-label">City</label>
+                        <div class="col-sm-3">
+                            <ng-select [items]="cityList" bindLabel="city" formControlName="city" #city bindValue="city">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label for="address" class="label col-sm-2 col-form-label">Address</label>
                         <div class="col-sm-6">
                             <input type="textarea" nbInput fullWidth id="address" placeholder="Address"

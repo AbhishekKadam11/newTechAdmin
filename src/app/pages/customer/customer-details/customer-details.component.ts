@@ -11,12 +11,16 @@ import { CustomerService } from '../customer.service';
 export class CustomerDetailsComponent implements OnInit {
   gender={};
   customerId: string;
+  stateList: any;
+  cityList: any;
   customerForm =  this.fb.group({
     email: new FormControl(''),
     profilename: new FormControl(''),
     gender: new FormControl(''),
     mobileNo: new FormControl(''),
-    address: new FormControl('')
+    address: new FormControl(''),
+    state: new FormControl(''),
+    city: new FormControl('')
   });
   constructor(private fb: FormBuilder, private customerService: CustomerService,
     protected router: Router,
@@ -33,6 +37,19 @@ export class CustomerDetailsComponent implements OnInit {
       })
     }
 
+    this.customerService.stateList()
+    .subscribe(result => {
+      this.stateList = result;
+    })
+
+  }
+
+  getCityList() {
+    let state = this.customerForm.controls.state.value;
+    this.customerService.cityList(state)
+    .subscribe(result => {
+      this.cityList = result;
+    })
   }
 
   onSubmit() {

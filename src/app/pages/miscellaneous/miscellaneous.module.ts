@@ -4,6 +4,7 @@ import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { MiscellaneousRoutingModule } from './miscellaneous-routing.module';
 import { MiscellaneousComponent } from './miscellaneous.component';
+import { NotAccessComponent } from './not-access/not-access.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
   declarations: [
     MiscellaneousComponent,
     NotFoundComponent,
+    NotAccessComponent,
   ],
 })
 export class MiscellaneousModule { }

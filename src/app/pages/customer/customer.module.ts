@@ -8,6 +8,7 @@ import { CustomerComponent } from "./customer.component";
 import { CustomerRoutingModule } from "./customer-routing.module";
 import { CustomerListComponent } from "./customer-list/customer-list.component";
 import { CustomerDetailsComponent } from "./customer-details/customer-details.component";
+import { NgSelectModule } from "@ng-select/ng-select";
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { CustomerDetailsComponent } from "./customer-details/customer-details.co
         NbDialogModule.forChild(),
         ReactiveFormsModule,
         CustomerRoutingModule,
+        NgSelectModule
     ],
     declarations: [
         CustomerComponent,

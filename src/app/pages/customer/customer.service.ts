@@ -33,4 +33,18 @@ export class CustomerService {
       });
   }
 
+  stateList():Observable<any> {
+    return this.http.get<any>(`${this.globalShared['apiUrl']}/stateList`)
+      .pipe(data => {
+        return data;
+      });
+  }
+
+  cityList(state: String):Observable<any> {
+    return this.http.get<any>(`${this.globalShared['apiUrl']}/cityList?state=${state}`)
+      .pipe(data => {
+        return data;
+      });
+  }
+
 }

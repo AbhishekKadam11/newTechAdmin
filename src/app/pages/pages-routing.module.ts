@@ -4,6 +4,7 @@ import { PagesComponent } from './pages.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from '../authentication/service/auth-guard.service';
+import { NotAccessComponent } from './miscellaneous/not-access/not-access.component';
 
 const routes: Routes = [{
   path: '',
@@ -28,13 +29,13 @@ const routes: Routes = [{
         .then(m => m.CustomerModule),
       data: { roles: ["Admin", "User"] }
     },
-    {
-      path: 'products/upload',
-      loadChildren: () => import('./products/products.module')
-        .then(m => m.ProductModule),
-      // pathMatch: 'full',
-      data: { roles: ["Admin"] }
-    },
+    // {
+    //   path: 'products/upload',
+    //   loadChildren: () => import('./products/products.module')
+    //     .then(m => m.ProductModule),
+    //   // pathMatch: 'full',
+    //   data: { roles: ["Admin"] }
+    // },
     // {
     //   path: 'products/details/:id',
     //   loadChildren: () => import('./products/products.module')
@@ -49,6 +50,11 @@ const routes: Routes = [{
       data: { roles: ["Admin", "User"] }
     },
     {
+      path: 'miscellaneous',
+      loadChildren: () => import('./miscellaneous/miscellaneous.module')
+        .then(m => m.MiscellaneousModule),
+    },
+    {
       path: '',
       redirectTo: 'home',
       pathMatch: 'full',
@@ -57,6 +63,15 @@ const routes: Routes = [{
       path: '**',
       component: NotFoundComponent,
     },
+    {
+      path: 'notaccess',
+      component: NotAccessComponent,
+    },
+    // {
+    //   path: '**',
+    //   loadChildren: () => import('./miscellaneous/miscellaneous.module')
+    //     .then(m => m.MiscellaneousModule),
+    // },
   ],
 }];
 
