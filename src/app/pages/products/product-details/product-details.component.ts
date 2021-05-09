@@ -3,15 +3,14 @@ import { map, takeUntil, takeWhile } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { NbComponentSize, NbDialogService, NbMediaBreakpointsService, NbThemeService } from '@nebular/theme';
 
-import { Camera, SecurityCamerasData } from '../../../@core/data/security-cameras';
+import { Camera } from '../../../@core/data/security-cameras';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Editor, Toolbar, toHTML } from 'ngx-editor';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { forkJoin } from 'rxjs/internal/observable/forkJoin';
-// import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
 import { AddImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { ProductsService } from '../products.service';
 import { GlobalShared } from '../../../app.global';
+import { AuthService } from '../../../authentication/service/auth.service';
 
 @Component({
   selector: 'ngx-product-details',
@@ -41,7 +40,6 @@ export class ProductDetailsComponent implements OnInit {
   ];
   productDetails: any = {}
   reviewDetails: any = {}
-  private alive = true;
   contacts: any[];
   recent: any[];
   errors: any = [];
@@ -52,6 +50,7 @@ export class ProductDetailsComponent implements OnInit {
   categoryList = [];
   shortdescriptionArray = [];
   fulldescriptionArray = [];
+  isAdmin:boolean = false;
   productForm = this.fb.group({
     category: new FormControl(),
     brand: new FormControl(),
@@ -72,11 +71,13 @@ export class ProductDetailsComponent implements OnInit {
     protected router: Router,
     private productsService: ProductsService,
     private globalShared: GlobalShared,
+    private authService: AuthService,
     private activatedRoute: ActivatedRoute) {
 
   }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.isAdmin;
     this.editor1 = new Editor();
     this.editor2 = new Editor();
     this.productid = this.activatedRoute.snapshot.params.id;
@@ -85,7 +86,6 @@ export class ProductDetailsComponent implements OnInit {
       this.isUpdate = true;
       this.productsService.productDetails(this.productid)
         .subscribe(result => {
-          // console.log("result1",result)
           this.productDetails = result;
           this.productForm.patchValue(this.productDetails);
           for (let i of this.productDetails['productimages']) {
@@ -168,9 +168,6 @@ export class ProductDetailsComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     if (this.isUpdate) {
-      // console.log(this.productForm.value);
-      // this.productForm.controls.shortdescription.setValue(toHTML(this.productForm.value.shortdescription));
-      // this.productForm.controls.fulldescription.setValue(toHTML(this.productForm.value.fulldescription));
       this.productsService.productUpdate(this.productid, this.productForm.value).subscribe((result) => {
         if (result) {
           this.router.navigate(['/pages/products']);
@@ -184,7 +181,6 @@ export class ProductDetailsComponent implements OnInit {
     } else {
       this.productForm.controls.shortdescription.setValue(toHTML(this.productForm.value.shortdescription));
       this.productForm.controls.fulldescription.setValue(toHTML(this.productForm.value.fulldescription));
-      // console.log((this.productForm.value));
       this.productsService.productUpload(this.productForm.value).subscribe((result) => {
         if (result) {
           this.router.navigate(['/pages/products']);

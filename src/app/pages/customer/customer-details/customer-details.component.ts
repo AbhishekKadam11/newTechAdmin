@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../../authentication/service/auth.service';
 import { CustomerService } from '../customer.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class CustomerDetailsComponent implements OnInit {
   customerId: string;
   stateList: any;
   cityList: any;
+  isAdmin: boolean = false;
   customerForm =  this.fb.group({
     email: new FormControl(''),
     profilename: new FormControl(''),
@@ -24,6 +26,7 @@ export class CustomerDetailsComponent implements OnInit {
   });
   constructor(private fb: FormBuilder, private customerService: CustomerService,
     protected router: Router,
+    private authService: AuthService,
     private activatedRoute: ActivatedRoute) {
 
   }
@@ -42,6 +45,7 @@ export class CustomerDetailsComponent implements OnInit {
       this.stateList = result;
     })
 
+    this.isAdmin = this.authService.isAdmin;
   }
 
   getCityList() {

@@ -135,7 +135,7 @@ export class OrderSummaryComponent implements OnInit {
       .enter()
       .append("text")
       .text(d => {
-        return d.data.name;
+        return d.data.name + " " + "(" + d.data.value + ")";
       })
       .attr("transform", d => {
         var pos = outerArc.centroid(d);

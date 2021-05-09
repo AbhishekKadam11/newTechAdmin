@@ -127,7 +127,7 @@
                 <nb-card-footer>
                     <div class="form-group row">
                         <div class="offset-sm-2 col-sm-9">
-                            <button type="submit" nbButton [nbSpinner]="loading" nbSpinnerStatus="info"
+                            <button type="submit" nbButton [nbSpinner]="loading" nbSpinnerStatus="info"  [disabled]="!isAdmin"
                                 nbSpinnerSize="small" status="primary">Save</button>
                         </div>
                     </div>
@@ -160,7 +160,7 @@
                 <nb-card-footer>
                     <div class="form-group row">
                         <div class="col-sm-9">
-                            <button type="submit" nbButton [nbSpinner]="loading" nbSpinnerStatus="info"
+                            <button type="submit" nbButton [nbSpinner]="loading" nbSpinnerStatus="info"  [disabled]="!isAdmin"
                                 nbSpinnerSize="small" status="primary">Save</button>
                         </div>
                     </div>
