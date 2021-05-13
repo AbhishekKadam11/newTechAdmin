@@ -23,9 +23,9 @@
               "src/favicon.ico",
               "src/favicon.png",
               {
-                "glob": "**/*",
-                "input": "node_modules/leaflet/dist/images",
-                "output": "/assets/img/markers"
+                "glob": "_redirects",
+                "input": "src",
+                "output": "/"
               }
             ],
             "styles": [
