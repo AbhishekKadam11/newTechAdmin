@@ -12,7 +12,9 @@ import { takeWhile } from 'rxjs/operators';
   selector: 'ngx-country-orders-map',
   styleUrls: ['./country-orders-map.component.scss'],
   template: `
+    <nb-card size="medium" [nbSpinner]="imgloading" nbSpinnerStatus="info" nbSpinnerSize="large">
     <div leaflet [leafletOptions]="options" [leafletLayers]="layers" (leafletMapReady)="mapReady($event)"></div>
+    </nb-card>
   `,
 })
 export class CountryOrdersMapComponent implements OnDestroy {
@@ -25,6 +27,7 @@ export class CountryOrdersMapComponent implements OnDestroy {
   currentTheme: any;
   alive = true;
   selectedCountry;
+  imgloading = false;
 
   options = {
     // zoom: 2,
@@ -47,7 +50,8 @@ export class CountryOrdersMapComponent implements OnDestroy {
 
   constructor(private ecMapService: CountryOrdersMapService,
               private theme: NbThemeService) {
-
+    
+    this.imgloading = true;
     combineLatest([
       this.ecMapService.getCords(),
       this.theme.getJsTheme(),
@@ -57,6 +61,7 @@ export class CountryOrdersMapComponent implements OnDestroy {
         this.currentTheme = config.variables.countryOrders;
         this.layers = [this.createGeoJsonLayer(cords)];
         this.selectFeature(this.findFeatureLayerBystateId(this.stateId));
+        this.imgloading = false;
       });
   }
 

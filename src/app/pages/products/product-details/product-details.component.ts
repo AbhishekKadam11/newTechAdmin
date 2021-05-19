@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { map, takeUntil, takeWhile } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { NbComponentSize, NbDialogService, NbMediaBreakpointsService, NbThemeService } from '@nebular/theme';
@@ -11,6 +11,7 @@ import { AddImageDialogComponent } from '../image-dialog/image-dialog.component'
 import { ProductsService } from '../products.service';
 import { GlobalShared } from '../../../app.global';
 import { AuthService } from '../../../authentication/service/auth.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'ngx-product-details',
@@ -20,6 +21,7 @@ import { AuthService } from '../../../authentication/service/auth.service';
 export class ProductDetailsComponent implements OnInit {
   private destroy$ = new Subject<void>();
   loading = false;
+  imgloading = false;
   cameras: any = [];
   selectedCamera: Camera;
   isSingleView = false;
@@ -51,6 +53,7 @@ export class ProductDetailsComponent implements OnInit {
   shortdescriptionArray = [];
   fulldescriptionArray = [];
   isAdmin:boolean = false;
+  base64DefaultURL;
   productForm = this.fb.group({
     category: new FormControl(),
     brand: new FormControl(),
@@ -63,7 +66,7 @@ export class ProductDetailsComponent implements OnInit {
     image: new FormControl(),
     productimages: new FormControl(),
   });
-
+  
   constructor(private themeService: NbThemeService,
     private breakpointService: NbMediaBreakpointsService,
     private dialogService: NbDialogService,
@@ -72,8 +75,10 @@ export class ProductDetailsComponent implements OnInit {
     private productsService: ProductsService,
     private globalShared: GlobalShared,
     private authService: AuthService,
+    private sanitizer: DomSanitizer,
+    private cd: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute) {
-
+    
   }
 
   ngOnInit(): void {
@@ -84,16 +89,27 @@ export class ProductDetailsComponent implements OnInit {
 
     if (this.productid) {
       this.isUpdate = true;
+      this.imgloading = true;
       this.productsService.productDetails(this.productid)
+        .pipe(
+          takeUntil(this.destroy$),
+        )
         .subscribe(result => {
           this.productDetails = result;
           this.productForm.patchValue(this.productDetails);
           for (let i of this.productDetails['productimages']) {
-            this.cameras.push({ "title": i, "source": this.globalShared['imageUrl'] + i, "isPosterImage": false })
+            this.productsService.getFile(i)
+              .subscribe(result => {
+                this.cameras.push({ "title": i, "source": "data:image/jpg;base64," + result, "isPosterImage": false });
+              })
           }
           if (this.productDetails['image']) {
-            this.cameras.push({ "title": this.productDetails['image'], "source": this.globalShared['imageUrl'] + this.productDetails['image'], "isPosterImage": true })
+            this.productsService.getFile(this.productDetails['image'])
+              .subscribe(result => {
+                this.cameras.push({ "title": this.productDetails['image'], "source": "data:image/jpg;base64," + result, "isPosterImage": true });
+              })
           }
+          this.imgloading = false;
         })
 
       this.productsService.productReview(this.productid)

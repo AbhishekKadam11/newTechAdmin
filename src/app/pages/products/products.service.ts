@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
+import { throwError } from 'rxjs/internal/observable/throwError';
+import { catchError } from 'rxjs/internal/operators/catchError';
 import { map } from 'rxjs/operators';
 import { GlobalShared } from '../../app.global';
 
@@ -63,5 +65,25 @@ export class ProductsService {
         return result;
       }));
   }
+
+  getFile(imageId: string): Observable<any> {
+    return this.http.get<any>(`${this.globalShared['apiUrl']}/getFile?filename=${imageId}`)
+      .pipe((result => {
+        return result;
+      }), catchError(this.handleError));
+  }
+
+  handleError(error) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+        // client-side error
+        errorMessage = `Error: ${error.error.message}`;
+    } else {
+        // server-side error
+        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(errorMessage);
+}
 
 }

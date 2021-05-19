@@ -1,7 +1,7 @@
 <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
     <div class="row">
         <div class="col-xxxl-6 col-xxl-12 col-md-12">
-            <nb-card size="large">
+            <nb-card size="large" [nbSpinner]="imgloading" nbSpinnerStatus="info" nbSpinnerSize="large">
                 <nb-card-header>
                     Product Images
                     <button class="single-view-button" nbButton size="small"
@@ -15,22 +15,19 @@
                 </nb-card-header>
 
                 <div class="grid-container">
-
-                    <div class="single-view" *ngIf="isSingleView">
+                   <div class="single-view" *ngIf="isSingleView">
                         <div class="camera" [style.background-image]="'url(' + selectedCamera.source + ')'">
                             <span class="camera-name">{{ selectedCamera.title }}</span>
                         </div>
                     </div>
-
+                
                     <div class="grid-view" *ngIf="!isSingleView">
-                        <div class="camera" *ngFor="let camera of cameras"
-                            [style.background-image]="'url(' + camera.source + ')'" (click)="selectCamera(camera)">
-                         
+                        <div class="camera" *ngFor="let camera of cameras " [style.background-image]="'url(' + (camera.source) + ')'"
+                            (click)="selectCamera(camera)">
                             <span class="camera-name">{{ camera.title }}</span>
                             <!-- <img [src]="camera.source" *ngIf="camera.source" style="height: 300px; width:500px"> -->
                         </div>
                     </div>
-
                 </div>
 
                 <nb-card-footer>
