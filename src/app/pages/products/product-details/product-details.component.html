@@ -16,13 +16,13 @@
 
                 <div class="grid-container">
                    <div class="single-view" *ngIf="isSingleView">
-                        <div class="camera" [style.background-image]="'url(' + selectedCamera.source + ')'">
+                        <div class="camera" [style.background-image]="'url(' + selectedCamera.source + ')'" onerror="this.src='../../../../assets/images/product_image_not_found.gif'">
                             <span class="camera-name">{{ selectedCamera.title }}</span>
                         </div>
                     </div>
                 
                     <div class="grid-view" *ngIf="!isSingleView">
-                        <div class="camera" *ngFor="let camera of cameras " [style.background-image]="'url(' + (camera.source) + ')'"
+                        <div class="camera" *ngFor="let camera of cameras " [style.background-image]="'url(' + (camera.source) + ')'" onerror="this.src='../../../../assets/images/product_image_not_found.gif'"
                             (click)="selectCamera(camera)">
                             <span class="camera-name">{{ camera.title }}</span>
                             <!-- <img [src]="camera.source" *ngIf="camera.source" style="height: 300px; width:500px"> -->

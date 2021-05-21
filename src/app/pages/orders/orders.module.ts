@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { NbActionsModule, NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule, NbListModule, NbMenuModule, NbRadioModule, NbUserModule } from "@nebular/theme";
+import { NbActionsModule, NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule, NbListModule, NbMenuModule, NbRadioModule, NbTabsetModule, NbUserModule } from "@nebular/theme";
 import { ThemeModule } from "../../@theme/theme.module";
 import { GridJsAngularModule } from 'gridjs-angular';
 import { OrdersRoutingModule } from "./orders-routing.module";
@@ -17,6 +17,7 @@ import { ProductOrderListComponent } from './product-order-list/product-order-li
         NbListModule,
         NbDialogModule.forChild(),
         OrdersRoutingModule,
+        NbTabsetModule,
     ],
     declarations: [
         OrdersComponent,

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { h } from 'gridjs';
 import { GlobalShared } from '../../../app.global';
+import { OrdersService } from '../orders.service';
 import { ProductOrderListComponent } from '../product-order-list/product-order-list.component';
 
 @Component({
@@ -14,6 +15,8 @@ export class OrdersListComponent implements OnInit {
 
   public orderList: any = [];
   constructor(private globalShared: GlobalShared, protected router: Router,
+    private ordersService: OrdersService,
+    private toastrService: NbToastrService,
     private dialogService: NbDialogService) { }
 
   ngOnInit(): void {
@@ -49,13 +52,21 @@ export class OrdersListComponent implements OnInit {
           className: 'py-1 mb-2 px-2 border rounded-md viewButton',
           style: "background-image: linear-gradient(to right, #42aaff, #0095ff); border: none; box-shadow: 0 0 0 0 #006fd6, 0 0 0 0 #0057c2, 0 0 transparent;color: #ffffff;",
           onClick: () => {
-            // this.router.navigate(['/pages/customer/details/', cell]);
-            this.dialogService.open(ProductOrderListComponent, {
-              context: {
-                title: 'Customer order list',
-                data: cell,
-              },
-            });
+            if (cell.length !== 0) {
+              this.ordersService.getCombinedFileData(cell).subscribe(data => {
+                // console.log('getCombinedFileData', data);
+              })
+              this.dialogService.open(ProductOrderListComponent, {
+                context: {
+                  title: 'Customer order list',
+                  data: cell,
+                },
+              });
+            } else {
+              this.toastrService.warning(
+                "Something went wrong",
+                `Error`);
+            }
           }
         }, 'View');
       }
