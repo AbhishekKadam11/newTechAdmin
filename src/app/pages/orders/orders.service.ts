@@ -43,9 +43,11 @@ export class OrdersService {
         from(result).pipe(
           // load each contact
           mergeMap(
+            //@ts-ignore
             id => this.getSingleFileData(id.image),
             // in result selector, connect fetched detail 
             (original, detail) => {
+               //@ts-ignore
               return original.image = "data:image/jpg;base64," + detail;
             }
           ),

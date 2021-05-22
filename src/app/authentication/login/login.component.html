@@ -1,9 +1,15 @@
 <h1 id="title" class="title">Login</h1>
 
 <nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
-
   <ul class="alert-message-list"> 
     <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+  </ul>
+</nb-alert>
+
+<nb-alert outline="info" role="alert">
+  <ul class="alert-message-list"> 
+    <li class="alert-message">Email address: base.user@mail.com</li>
+    <li class="alert-message">Password: password</li>
   </ul>
 </nb-alert>
 
