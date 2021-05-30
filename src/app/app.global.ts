@@ -9,6 +9,7 @@ export class GlobalShared {
   // apiUrl: string = 'http://localhost:8080';
   defaultimage: string = 'assets/images/default-placeholder.png'; 
   // imageUrl: string = 'http://localhost:8080/getFile?filename=';
-  imageUrl: string = 'https://newtechadminapi.netlify.app/.netlify/functions/index/getFile?filename=';
+  // imageUrl: string = 'https://newtechadminapi.netlify.app/.netlify/functions/index/getFile?filename=';
+  imageUrl: string = 'https://main-newtech-p6g7tpooam6b2xjm-gtw.qovery.io';
 
 }

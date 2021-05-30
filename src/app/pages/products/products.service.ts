@@ -67,7 +67,7 @@ export class ProductsService {
   }
 
   getFile(imageId: string): Observable<any> {
-    return this.http.get<any>(`${this.globalShared['apiUrl']}/getFile?filename=${imageId}`)
+    return this.http.get<any>(`${this.globalShared['imageUrl']}/getFile?filename=${imageId}`)
       .pipe((result => {
         return result;
       }), catchError(this.handleError));
@@ -82,7 +82,7 @@ export class ProductsService {
         // server-side error
         errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.log(errorMessage);
+    console.log("errorMessage",errorMessage);
     return throwError(errorMessage);
 }
 
